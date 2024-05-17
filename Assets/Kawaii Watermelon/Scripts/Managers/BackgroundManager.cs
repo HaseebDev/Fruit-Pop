@@ -1,66 +1,51 @@
 using System.Collections;
 using UnityEngine;
-
-[System.Serializable]
-public class BackgroundGatePair
-{
-    public Transform background;
-    public Transform gate;
-}
+using UnityEngine.UIElements;
 
 public class BackgroundManager : MonoBehaviour
 {
-    [SerializeField] private BackgroundGatePair[] backgroundGatePairs;
-    [SerializeField] private float transitionDuration = 1.0f;
-    [SerializeField] private float transitionDistance = 10.0f; // Adjust as needed
+    public GameObject[] backgrounds;  // Array to hold your backgrounds
+    private float backgroundHeight = 10.2f;  // Height difference between backgrounds
+    int BackGroundNumber = 0;
 
-    private Vector3[] originalRelativePositions;
-    private int currentBackgroundIndex = 0;
 
-    private void Start()
+    void Start()
     {
-        // Store original relative positions
-        StoreOriginalRelativePositions();
-    }
 
-    private void StoreOriginalRelativePositions()
-    {
-        originalRelativePositions = new Vector3[backgroundGatePairs.Length];
-        for (int i = 0; i < backgroundGatePairs.Length; i++)
+        // Initial placement of backgrounds if needed
+        for (int i = 0; i < backgrounds.Length; i++)
         {
-            originalRelativePositions[i] = backgroundGatePairs[i].background.position - backgroundGatePairs[0].background.position;
+            backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
         }
     }
 
-    private void Update()
+    public void MoveToNextLevel()
     {
-        // Check if the last background is reached
-        if (currentBackgroundIndex == backgroundGatePairs.Length - 1)
-        {
-            StartCoroutine(TransitionBackgrounds());
-        }
+        StartCoroutine(MoveBackgroundToEnd(BackGroundNumber));
     }
 
-    private IEnumerator TransitionBackgrounds()
+    private IEnumerator MoveBackgroundToEnd(int completedIndex)
     {
-        // Move all backgrounds and gates down
-        float elapsedTime = 0f;
-        while (elapsedTime < transitionDuration)
+        if (completedIndex < 0 || completedIndex >= backgrounds.Length) yield break;
+
+        // Wait for 10 seconds
+        yield return new WaitForSeconds(1f);
+
+        GameObject completedBackground = backgrounds[completedIndex];
+
+        // Move the completed background to the end
+        for (int i = completedIndex; i < backgrounds.Length - 1; i++)
         {
-            for (int i = 0; i < backgroundGatePairs.Length; i++)
-            {
-                Vector3 targetPosition = backgroundGatePairs[i].background.position - Vector3.up * transitionDistance;
-                backgroundGatePairs[i].background.position = Vector3.Lerp(backgroundGatePairs[i].background.position, targetPosition, elapsedTime / transitionDuration);
-                backgroundGatePairs[i].gate.position = Vector3.Lerp(backgroundGatePairs[i].gate.position, targetPosition, elapsedTime / transitionDuration);
-            }
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            backgrounds[i] = backgrounds[i + 1];
+        }
+        backgrounds[backgrounds.Length - 1] = completedBackground;
+
+        // Reposition backgrounds
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
         }
 
-        // Reset backgrounds to maintain original relative positions
-        for (int i = 0; i < backgroundGatePairs.Length; i++)
-        {
-            backgroundGatePairs[i].background.position = backgroundGatePairs[0].background.position + originalRelativePositions[i];
-        }
+
     }
 }
