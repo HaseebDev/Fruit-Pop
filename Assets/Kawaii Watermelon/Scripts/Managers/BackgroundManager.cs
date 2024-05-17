@@ -40,12 +40,18 @@ public class BackgroundManager : MonoBehaviour
         }
         backgrounds[backgrounds.Length - 1] = completedBackground;
 
-        // Reposition backgrounds
-        for (int i = 0; i < backgrounds.Length; i++)
-        {
-            backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
-        }
+        //// Reposition backgrounds
+        //for (int i = 0; i < backgrounds.Length; i++)
+        //{
+        //    backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
+        //}
 
-
+        // Calculate the new position for the completed background
+        Vector2 newPosition = new Vector2(0, -(backgrounds.Length + check) * backgroundHeight);
+        // Move the completed background to the new position
+        completedBackground.transform.position = newPosition;
+        check++;
     }
+
+    int check;
 }
