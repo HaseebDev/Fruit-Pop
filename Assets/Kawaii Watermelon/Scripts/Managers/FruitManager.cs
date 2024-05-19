@@ -229,7 +229,8 @@ public class FruitManager : MonoBehaviour
     private void TargetAchieved()
     {
 
-        //Make Fruits Fall Through the current playing backgrounds gate(Still needs to figure out how i am going to do that)
+        //Make Fruits Fall Through the current playing backgrounds gate(Still needs to figure out how i am going to do that) 
+        //Play the AchievedTarget Fruit breaking the gate and at the end of the animation switch call the backgroundManager.MoveToNextLevel();
 
         if (targetFruitIndex < fruitPrefabs.Length - 1)
         {

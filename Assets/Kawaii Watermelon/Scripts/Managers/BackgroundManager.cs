@@ -7,7 +7,7 @@ public class BackgroundManager : MonoBehaviour
     public GameObject[] backgrounds;  // Array to hold your backgrounds
     private float backgroundHeight = 10.2f;  // Height difference between backgrounds
     int BackGroundNumber = 0;
-
+    int check;
 
     void Start()
     {
@@ -28,7 +28,7 @@ public class BackgroundManager : MonoBehaviour
     {
         if (completedIndex < 0 || completedIndex >= backgrounds.Length) yield break;
 
-        // Wait for 10 seconds
+        // Wait for 10 seconds for breaking gate Animation to finish if required adjust as needed
         yield return new WaitForSeconds(1f);
 
         GameObject completedBackground = backgrounds[completedIndex];
@@ -53,5 +53,5 @@ public class BackgroundManager : MonoBehaviour
         check++;
     }
 
-    int check;
+    
 }
