@@ -232,6 +232,28 @@ public class FruitManager : MonoBehaviour
         //Make Fruits Fall Through the current playing backgrounds gate(Still needs to figure out how i am going to do that) 
         //Play the AchievedTarget Fruit breaking the gate and at the end of the animation switch call the backgroundManager.MoveToNextLevel();
 
+
+        // Find the target fruit in the scene
+        Fruit targetFruit = null;
+        foreach (Transform fruitTransform in fruitsParent)
+        {
+            Fruit fruit = fruitTransform.GetComponent<Fruit>();
+            if (fruit != null && (int)fruit.GetFruitType() == targetFruitIndex)
+            {
+                targetFruit = fruit;
+                break;
+            }
+        }
+
+        if (targetFruit != null)
+        {
+            // Add the TargetFruitAnimation component and start the animation
+            TargetFruitAnimation targetFruitAnimation = targetFruit.gameObject.AddComponent<TargetFruitAnimation>();
+            targetFruitAnimation.StartTargetFruitAnimation();
+            //Disable the Backgrunds Gates Collider. 
+            //Make all other Fruit Follow //MeanWhile Also do backgroundManager.MoveToNextLevel(); It should be done above with almost the matching time delay.
+        }
+
         if (targetFruitIndex < fruitPrefabs.Length - 1)
         {
             targetFruitIndex++;
