@@ -1,0 +1,17 @@
+{
+  "name": "DTT.DailyRewards.Demo",
+  "rootNamespace": "DTT.DailyRewards.Demo",
+  "references": [
+    "GUID:4409e4c24d5abaa4b8afdbb01eba4dfa",
+    "GUID:676bb8642b6c5db49b10990ae9c9cbc4"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -1,0 +1,11 @@
+﻿{
+  "title": "Daily Rewards & Events: get started quickly",
+  "text": "[Getting started with the DTT Daily Rewards & Events asset is simple, and completely codeless, you'll need to create three scriptable objects. First create a TimePattern. And set how often you want a reward to be received. Next create a TimeRetriever this will get the time for your daily reward. Finally create a DailyRewardSO, give it a name, and the just made TimePattern and TimeRetriever. You're ready to go, reference it in scene to check if the reward is available, claim it, and get previously claimed rewards.][Want to dive deeper? Take a look at our documentation:][l]",
+  "links": [
+    {
+      "text": "Open documentation",
+      "url": "Documentation.pdf",
+      "inline": false
+    }
+  ]
+}

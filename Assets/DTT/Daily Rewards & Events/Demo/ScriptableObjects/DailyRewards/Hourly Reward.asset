@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dccbacae4694ab98a835915aba3ee59, type: 3}
+  m_Name: Hourly Reward
+  m_EditorClassIdentifier: 
+  _rewardId: HourlyReward
+  _timePattern: {fileID: 11400000, guid: 99e9abce51209434d958ceb87b00da2a, type: 2}
+  _rewardsClaimedAtMidnight: 0
+  _isFinite: 0
+  _finiteRewardAmount: 0
+  _onRewardMissedPolicy: 1
+  _timeRetrieverSO: {fileID: 11400000, guid: 6dae9b4eb4231da4ab70436aca846a83, type: 2}
