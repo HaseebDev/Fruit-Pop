@@ -288,6 +288,7 @@ public class FruitManager : MonoBehaviour
 
         // Reset target fruit index to element 5
         targetFruitIndex = 5;
+        UpdateTargetFruitImage();
     }
 
 
