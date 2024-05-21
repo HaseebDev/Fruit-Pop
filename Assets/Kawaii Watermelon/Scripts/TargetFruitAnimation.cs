@@ -12,7 +12,7 @@ public class TargetFruitAnimation : MonoBehaviour
     [SerializeField] private float shakeAmount = 0.01f;
     [SerializeField] private float shakeIncreaseRate = 0.001f;
     [SerializeField] private float centerWaitTime = 2.0f;
-    [SerializeField] private float fallSpeed = 10.0f;
+    [SerializeField] private float fallSpeed = 20f;
     float targetYPosition;
     private Camera mainCamera;
     private Vector3 initialCameraPosition;
@@ -39,7 +39,8 @@ public class TargetFruitAnimation : MonoBehaviour
     {
         isAnimating = true;
 
-        Vector3 centerScreenPosition = new Vector3(0, 0, originalPosition.z);
+        Vector3 centerScreenPosition = new Vector3(0f, initialCameraPosition.y, originalPosition.z);
+
         fruitRigidbody.isKinematic = true;
         while (Vector2.Distance(fruitTransform.position, centerScreenPosition) > 0.1f)
         {
