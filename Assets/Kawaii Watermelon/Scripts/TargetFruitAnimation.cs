@@ -40,9 +40,10 @@ public class TargetFruitAnimation : MonoBehaviour
 
         Vector3 centerScreenPosition = new Vector3(0, 0, originalPosition.z);
         fruitRigidbody.isKinematic = true;
-        while (Vector3.Distance(fruitTransform.position, centerScreenPosition) > 0.1f)
+        while (Vector2.Distance(fruitTransform.position, centerScreenPosition) > 0.1f)
         {
-            fruitTransform.position = Vector3.MoveTowards(fruitTransform.position, centerScreenPosition, liftSpeed * Time.deltaTime);
+            Vector3 targetPosition = new Vector3(centerScreenPosition.x, centerScreenPosition.y, originalPosition.z);
+            fruitTransform.position = Vector3.MoveTowards(fruitTransform.position, targetPosition, liftSpeed * Time.deltaTime);
             fruitTransform.position += (Vector3)Random.insideUnitCircle * shakeAmount;
             shakeAmount += shakeIncreaseRate * Time.deltaTime;
             yield return null;
@@ -58,9 +59,10 @@ public class TargetFruitAnimation : MonoBehaviour
 
         Vector3 bottomCenterPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0f, originalPosition.z));
         fruitRigidbody.velocity = Vector2.zero;
-        while (Vector3.Distance(fruitTransform.position, bottomCenterPosition) > 0.1f)
+        while (Vector2.Distance(fruitTransform.position, bottomCenterPosition) > 0.1f)
         {
-            fruitTransform.position = Vector3.MoveTowards(fruitTransform.position, bottomCenterPosition, fallSpeed * Time.deltaTime);
+            Vector3 targetPosition = new Vector3(bottomCenterPosition.x, bottomCenterPosition.y, originalPosition.z);
+            fruitTransform.position = Vector3.MoveTowards(fruitTransform.position, targetPosition, fallSpeed * Time.deltaTime);
             yield return null;
         }
 
@@ -79,10 +81,8 @@ public class TargetFruitAnimation : MonoBehaviour
             Vector3 offset = fruitTransform.position - originalPosition;
 
             // Adjust the camera's y-position based on the offset
-            Vector3 newCameraPosition = new Vector3(initialCameraPosition.x, initialCameraPosition.y + offset.y - -0.8f, initialCameraPosition.z);
+            Vector3 newCameraPosition = new Vector3(initialCameraPosition.x, initialCameraPosition.y + offset.y, initialCameraPosition.z);
             mainCamera.transform.position = newCameraPosition;
         }
     }
-
-
 }
