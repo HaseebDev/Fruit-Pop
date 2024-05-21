@@ -14,10 +14,14 @@ public class TargetFruitAnimation : MonoBehaviour
     [SerializeField] private float centerWaitTime = 2.0f;
     [SerializeField] private float fallSpeed = 10.0f;
 
+    private Camera mainCamera;
+    private Vector3 initialCameraPosition;
+
     private void Awake()
     {
         fruitTransform = transform;
         fruitRigidbody = GetComponent<Rigidbody2D>();
+        mainCamera = Camera.main;
     }
 
     public void StartTargetFruitAnimation()
@@ -25,6 +29,7 @@ public class TargetFruitAnimation : MonoBehaviour
         if (!isAnimating)
         {
             originalPosition = fruitTransform.position;
+            initialCameraPosition = mainCamera.transform.position; // Store initial camera position
             StartCoroutine(AnimateTargetFruit());
         }
     }
@@ -51,7 +56,7 @@ public class TargetFruitAnimation : MonoBehaviour
             yield return null;
         }
 
-        Vector3 bottomCenterPosition = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0f, originalPosition.z));
+        Vector3 bottomCenterPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0f, originalPosition.z));
         fruitRigidbody.velocity = Vector2.zero;
         while (Vector3.Distance(fruitTransform.position, bottomCenterPosition) > 0.1f)
         {
@@ -62,8 +67,22 @@ public class TargetFruitAnimation : MonoBehaviour
         isAnimating = false;
         fruitRigidbody.isKinematic = false;
 
-        Destroy(this);
+        //Destroy(this);
     }
 
-  
+    private void Update()
+    {
+        // Follow the fruit only when it's not animating and it's moving downwards
+        if (!isAnimating)
+        {
+            // Calculate the offset between the fruit's current position and its original position
+            Vector3 offset = fruitTransform.position - originalPosition;
+
+            // Adjust the camera's y-position based on the offset
+            Vector3 newCameraPosition = new Vector3(initialCameraPosition.x, initialCameraPosition.y + offset.y - -0.8f, initialCameraPosition.z);
+            mainCamera.transform.position = newCameraPosition;
+        }
+    }
+
+
 }
