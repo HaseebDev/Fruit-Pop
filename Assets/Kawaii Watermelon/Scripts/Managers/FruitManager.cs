@@ -251,6 +251,7 @@ public class FruitManager : MonoBehaviour
             // Add the TargetFruitAnimation component and start the animation
             TargetFruitAnimation targetFruitAnimation = targetFruit.gameObject.AddComponent<TargetFruitAnimation>();
             targetFruitAnimation.StartTargetFruitAnimation();
+            backgroundManager.MoveToNextLevel();
             //Disable the Backgrunds Gates Collider. 
             //Make all other Fruit Follow //MeanWhile Also do backgroundManager.MoveToNextLevel(); It should be done above with almost the matching time delay.
         }

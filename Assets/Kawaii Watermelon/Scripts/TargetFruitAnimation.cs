@@ -13,7 +13,7 @@ public class TargetFruitAnimation : MonoBehaviour
     [SerializeField] private float shakeIncreaseRate = 0.001f;
     [SerializeField] private float centerWaitTime = 2.0f;
     [SerializeField] private float fallSpeed = 10.0f;
-
+    float targetYPosition;
     private Camera mainCamera;
     private Vector3 initialCameraPosition;
     float smoothness;
@@ -30,6 +30,7 @@ public class TargetFruitAnimation : MonoBehaviour
         {
             originalPosition = fruitTransform.position;
             initialCameraPosition = mainCamera.transform.position; // Store initial camera position
+            targetYPosition = initialCameraPosition.y - 10.225f;
             StartCoroutine(AnimateTargetFruit());
         }
     }
@@ -70,7 +71,7 @@ public class TargetFruitAnimation : MonoBehaviour
         isAnimating = false;
         fruitRigidbody.isKinematic = false;
 
-        Destroy(this, 3f);
+        Destroy(this, 4f);
     }
 
     private void OnDestroy()
@@ -86,10 +87,10 @@ public class TargetFruitAnimation : MonoBehaviour
             // Get the current camera position
             Vector3 currentCameraPosition = mainCamera.transform.position;
 
-            // Define the target Y position (-10.27)
-            float targetYPosition = -10.27f;
+            // Define the target Y position (-10.225)
 
-            // Ensure the camera doesn't move more than -10.27
+
+            // Ensure the camera doesn't move more than -10.225
             if (currentCameraPosition.y > targetYPosition)
             {
                 // Smoothly interpolate the camera's Y position towards -10.27

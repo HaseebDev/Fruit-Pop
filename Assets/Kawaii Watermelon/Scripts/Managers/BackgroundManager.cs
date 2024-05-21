@@ -28,7 +28,7 @@ public class BackgroundManager : MonoBehaviour
         if (completedIndex < 0 || completedIndex >= backgrounds.Length) yield break;
 
         // Wait for 1 second (adjust as needed)
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(6f);
 
         GameObject completedBackground = backgrounds[completedIndex];
 
