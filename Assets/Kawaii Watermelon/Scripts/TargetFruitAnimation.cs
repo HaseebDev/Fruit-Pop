@@ -16,7 +16,7 @@ public class TargetFruitAnimation : MonoBehaviour
 
     private Camera mainCamera;
     private Vector3 initialCameraPosition;
-
+    float smoothness;
     private void Awake()
     {
         fruitTransform = transform;
@@ -66,23 +66,40 @@ public class TargetFruitAnimation : MonoBehaviour
             yield return null;
         }
 
+        smoothness = 3f;
         isAnimating = false;
         fruitRigidbody.isKinematic = false;
 
-        //Destroy(this);
+        Destroy(this, 3f);
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("TargetDestroyed");
     }
 
     private void Update()
     {
-        // Follow the fruit only when it's not animating and it's moving downwards
+        // Follow the fruit only when it's not animating
         if (!isAnimating)
         {
-            // Calculate the offset between the fruit's current position and its original position
-            Vector3 offset = fruitTransform.position - originalPosition;
+            // Get the current camera position
+            Vector3 currentCameraPosition = mainCamera.transform.position;
 
-            // Adjust the camera's y-position based on the offset
-            Vector3 newCameraPosition = new Vector3(initialCameraPosition.x, initialCameraPosition.y + offset.y, initialCameraPosition.z);
-            mainCamera.transform.position = newCameraPosition;
+            // Define the target Y position (-10.27)
+            float targetYPosition = -10.27f;
+
+            // Ensure the camera doesn't move more than -10.27
+            if (currentCameraPosition.y > targetYPosition)
+            {
+                // Smoothly interpolate the camera's Y position towards -10.27
+                float newYPosition = Mathf.Lerp(currentCameraPosition.y, targetYPosition, Time.deltaTime * smoothness);
+
+                // Update the camera's position with the new Y value
+                mainCamera.transform.position = new Vector3(currentCameraPosition.x, newYPosition, currentCameraPosition.z);
+            }
         }
     }
+
+
 }

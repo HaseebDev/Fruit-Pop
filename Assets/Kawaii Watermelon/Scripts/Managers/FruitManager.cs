@@ -19,6 +19,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private Image targetFruitImage;
     [Header(" Settings ")]
     [SerializeField] private float fruitsYSpawnPos;
+    [SerializeField] private Transform fruitsYSpawnPosT;
     [SerializeField] private float spawnDelay;
     private bool canControl;
     private bool isControlling;
@@ -89,7 +90,7 @@ public class FruitManager : MonoBehaviour
     private void MouseDragCallback()
     {
         PlaceLineAtClickedPosition();
-        currentFruit.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPos));
+        currentFruit.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
     }
 
     private void MouseUpCallback()
@@ -169,7 +170,7 @@ public class FruitManager : MonoBehaviour
     private Vector2 GetSpawnPosition()
     {
         Vector2 worldClickedPosition = GetClickedWorldPosition();
-        worldClickedPosition.y = fruitsYSpawnPos;
+        worldClickedPosition.y = fruitsYSpawnPosT.position.y;
         return worldClickedPosition;
     }
 
@@ -365,7 +366,7 @@ public class FruitManager : MonoBehaviour
             return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(new Vector3(-50, fruitsYSpawnPos, 0), new Vector3(50, fruitsYSpawnPos, 0));
+        Gizmos.DrawLine(new Vector3(-50, fruitsYSpawnPosT.position.y, 0), new Vector3(50, fruitsYSpawnPosT.position.y, 0));
     }
 #endif
 }
