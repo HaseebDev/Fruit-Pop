@@ -30,10 +30,11 @@ public class HourlyRewardDisplay : MonoBehaviour
     [SerializeField]
     private Button claimButton;
 
-    /// <summary>
-    /// A simple "blocks" display of the rewards.
-    /// </summary>
-
+    [SerializeField]
+    public int[] rewardAmounts;
+    [SerializeField]
+    public GameObject rewardPanel;
+    public TMP_Text rewardText;
 
     /// <summary>
     /// A lock on updating the display, to stop interference during
@@ -56,7 +57,10 @@ public class HourlyRewardDisplay : MonoBehaviour
                     Debug.Log($"Reward {dailyReward.RewardInstance.name} is being claimed.");
                     break;
                 case RewardCallbackStatus.COMPLETE:
-                    UpdateDisplay();
+                    int randomRewardAmount = rewardAmounts[UnityEngine.Random.Range(0, rewardAmounts.Length)];
+                    rewardText.text = randomRewardAmount.ToString();
+                    rewardPanel.SetActive(true);
+                    AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Common, randomRewardAmount);
                     Debug.Log($"Reward {dailyReward.RewardInstance.name} successfully claimed.");
 
                     break;
@@ -110,12 +114,9 @@ public class HourlyRewardDisplay : MonoBehaviour
                 }
                 return;
             }
-           
-            _updatingDisplayLock = false;
-            Reward[] rewards = dailyReward.RewardInstance.EarnedRewards(10000);
-            float rewardTimeSpan = dailyReward.RewardInstance.CurrentRewardWaitTime();
-            float timeLeft = nextAvailableReward.NextAvailableReward - nextAvailableReward.CurrentUnixTime;
 
+            _updatingDisplayLock = false;
+            float timeLeft = nextAvailableReward.NextAvailableReward - nextAvailableReward.CurrentUnixTime;
             TimeSpan timeSpan = TimeSpan.FromSeconds(timeLeft);
             int totalHours = (int)timeSpan.TotalHours;
             string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}",
