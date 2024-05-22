@@ -63,30 +63,30 @@ PrefabInstance:
     - target: {fileID: 1232862739453509251, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 088e3a5482be1cf42a4cc68478b0e6a1, type: 3}
+      objectReference: {fileID: 21300000, guid: 252d082c0c6dbd44c9635dfc27a20297, type: 3}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.54315865
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.1658565
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.z
@@ -134,15 +134,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1232862739731494043, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4600845015272714404}
+      addedObject: {fileID: 3880078315554642710}
   m_SourcePrefab: {fileID: 100100000, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
 --- !u!1 &8482677144038790200 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1232862739731494043, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
   m_PrefabInstance: {fileID: 7252070603241513123}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &4600845015272714404
-CircleCollider2D:
+--- !u!60 &3880078315554642710
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,6 +173,49 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.039871372}
-  serializedVersion: 2
-  m_Radius: 0.4601286
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.0009484, y: 0.95561284}
+      - {x: 1.7408483, y: 1.2318488}
+      - {x: 0.2961946, y: 1.6766984}
+      - {x: 0.21648856, y: 1.819386}
+      - {x: 0.16729937, y: 2.0511942}
+      - {x: -0.033966832, y: 2.3360298}
+      - {x: -0.078825764, y: 1.8845781}
+      - {x: -0.25361785, y: 1.6883488}
+      - {x: -0.46864745, y: 1.7114141}
+      - {x: -0.5982202, y: 1.7328616}
+      - {x: -0.98402184, y: 1.5693748}
+      - {x: -1.7697096, y: 1.195976}
+      - {x: -2.0057917, y: 0.8840733}
+      - {x: -2.0544424, y: 0.74182624}
+      - {x: -2.0582113, y: 0.14515094}
+      - {x: -1.9900326, y: -0.2638493}
+      - {x: -1.8782053, y: -0.4907353}
+      - {x: -1.6221036, y: -1.0328515}
+      - {x: -1.0293542, y: -1.7374446}
+      - {x: -0.55359447, y: -2.0689263}
+      - {x: -0.395207, y: -2.118023}
+      - {x: -0.3838862, y: -2.3553333}
+      - {x: -0.15948159, y: -2.4856632}
+      - {x: 0.25994068, y: -2.2247667}
+      - {x: 0.45569456, y: -2.141096}
+      - {x: 0.9274539, y: -1.805378}
+      - {x: 1.1530347, y: -1.6084454}
+      - {x: 1.3793229, y: -1.3675877}
+      - {x: 1.6461252, y: -1.0179113}
+      - {x: 1.8709425, y: -0.54480886}
+      - {x: 1.9971924, y: -0.2157099}
+      - {x: 2.0919282, y: 0.15973951}
+      - {x: 2.112543, y: 0.5267028}
+  m_UseDelaunayMesh: 0

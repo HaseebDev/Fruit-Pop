@@ -1,27 +1,45 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
+
 public class LevelManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Slider xpBar;
+    [SerializeField] private GameObject levelUpPanel;
+    [SerializeField] private TextMeshProUGUI levelUpText;
+    [SerializeField] private TextMeshProUGUI earnedGemsText;
+    [SerializeField] private TextMeshProUGUI earnedCoinsText;
+    [SerializeField] private Button CloseLevelUpPanelButton;
 
     [Header("Settings")]
-    [SerializeField] private int initialXpRequirement = 100;
+    [SerializeField] private int initialXpRequirement = 50;
     [SerializeField] private float xpRequirementMultiplier = 1.5f;
+    [SerializeField] private int initialGemsReward = 1;
+    [SerializeField] private int initialCoinsReward = 20;
+    [SerializeField] private float gemsRewardMultiplier = 1.2f;
+    [SerializeField] private float coinsRewardMultiplier = 1.3f;
+    [SerializeField] private float animationDuration = 1f;
 
     private int currentLevel;
     private int currentXp;
     private int currentXpRequirement;
+    private int earnedGems;
+    private int earnedCoins;
 
     private const string LevelKey = "PlayerLevel";
     private const string XpKey = "PlayerXP";
+    private const string GemsKey = "EarnedGems";
+    private const string CoinsKey = "EarnedCoins";
+
 
     private void Start()
     {
         LoadProgress();
         UpdateUI();
+        CloseLevelUpPanelButton.onClick.AddListener(CloseLevelUpPanel);
     }
 
     public void AddXp(int xp)
@@ -43,7 +61,39 @@ public class LevelManager : MonoBehaviour
         currentLevel++;
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
         currentXp = 0; // Reset XP for the new level
+
+        // Increase earned gems and coins rewards for the next level
+        earnedGems = Mathf.RoundToInt(initialGemsReward * Mathf.Pow(gemsRewardMultiplier, currentLevel - 1));
+        earnedCoins = Mathf.RoundToInt(initialCoinsReward * Mathf.Pow(coinsRewardMultiplier, currentLevel - 1));
+
         UpdateUI(); // Update UI immediately after level up
+
+        // Enable level up panel and display completed level
+        levelUpPanel.SetActive(true);
+        levelUpText.text = (currentLevel - 1).ToString();
+        earnedGemsText.text = earnedGems.ToString();
+        earnedCoinsText.text = earnedCoins.ToString();
+
+        // Start animation coroutine
+        StartCoroutine(ScaleUpPanel());
+    }
+
+    private IEnumerator ScaleUpPanel()
+    {
+        float timer = 0f;
+        Vector3 initialScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
+
+        while (timer < animationDuration)
+        {
+            float scale = timer / animationDuration;
+            levelUpPanel.transform.localScale = Vector3.Lerp(initialScale, targetScale, scale);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the panel is exactly at the target scale
+        levelUpPanel.transform.localScale = targetScale;
     }
 
     private void UpdateUI()
@@ -57,6 +107,8 @@ public class LevelManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(LevelKey, currentLevel);
         PlayerPrefs.SetInt(XpKey, currentXp);
+        PlayerPrefs.SetInt(GemsKey, earnedGems);
+        PlayerPrefs.SetInt(CoinsKey, earnedCoins);
     }
 
     private void LoadProgress()
@@ -64,5 +116,15 @@ public class LevelManager : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt(LevelKey, 1);
         currentXp = PlayerPrefs.GetInt(XpKey, 0);
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
+        earnedGems = PlayerPrefs.GetInt(GemsKey, 0);
+        earnedCoins = PlayerPrefs.GetInt(CoinsKey, 0);
     }
+
+
+    private void CloseLevelUpPanel()
+    {
+        levelUpPanel.SetActive(false);
+        //Play ButtonSound
+    }
+
 }

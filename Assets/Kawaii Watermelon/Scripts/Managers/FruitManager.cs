@@ -52,6 +52,8 @@ public class FruitManager : MonoBehaviour
     private bool isBombControlling; // Flag to indicate if a bomb is currently being controlled
     private bool bombSpawnedThisMouseDown = false; // Add a new flag to track bomb spawning
 
+    public bool TargetFruitAniamtion = false;
+
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
@@ -82,17 +84,17 @@ public class FruitManager : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.instance.IsGameState())
+        // Check if the game state is active and if TargetFruitAnimation is false
+        if (!GameManager.instance.IsGameState() || TargetFruitAniamtion)
             return;
 
         // Check if there are any fruits spawned
         bool fruitsSpawned = fruitsParent.childCount > 0;
 
-        // Set the interactable state of the power-up buttons based on whether fruits are spawned and whether any power-up is active
         if (powerUpButton != null && powerUp2Button != null)
         {
-            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active;
-            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active;
+            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !TargetFruitAniamtion;
+            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !TargetFruitAniamtion;
         }
 
         if (canControl)
@@ -224,6 +226,7 @@ public class FruitManager : MonoBehaviour
         Vector2 spawnPosition = GetSpawnPosition();
         Fruit fruitToInstantiate = spawnableFruits[nextFruitIndex];
         currentFruit = Instantiate(fruitToInstantiate, spawnPosition, Quaternion.identity, fruitsParent);
+        //Debug.Log(" " + currentFruit.transform.parent.GetChild(0).transform.localScale);
         SetNextFruitIndex();
 
 
@@ -232,7 +235,7 @@ public class FruitManager : MonoBehaviour
     private void SetNextFruitIndex()
     {
         float commonChance = 0.6f; // Chance for the common fruits (index 0 and index 1)
-        float rareChance = 0.1f;   // Chance for the rare fruit (index 2)
+        float rareChance = 0.3f;   // Chance for the rare fruit (index 2)
         float superRareChance = 0.5f; // Chance for the super rare fruit (index 3)
 
         float randomValue = Random.value;
@@ -388,6 +391,7 @@ public class FruitManager : MonoBehaviour
 
     private IEnumerator CompleteCycle()
     {
+        yield return new WaitForSeconds(7f);
         // Play explosion effect
         explosionEffect.Play();
 
@@ -494,12 +498,13 @@ public class FruitManager : MonoBehaviour
         isPowerUpActive = true;
         // You can add visual feedback or any other effects to indicate the power-up mode is active
         Debug.Log("Power-up activated!");
+        //Show Rewarded
     }
     private void ActivatePowerUp2()
     {
         isPowerUp2Active = true;
         Debug.Log("Power-up activated!");
-
+        //Show Rewarded
     }
     private void SpawnBomb()
     {

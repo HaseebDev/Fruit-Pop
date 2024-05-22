@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TargetFruitAnimation : MonoBehaviour
@@ -22,6 +23,9 @@ public class TargetFruitAnimation : MonoBehaviour
         fruitTransform = transform;
         fruitRigidbody = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
+        FindAnyObjectByType<FruitManager>().TargetFruitAniamtion = true;
+        Debug.Log("TargetFruitAnimation " + FindAnyObjectByType<FruitManager>().TargetFruitAniamtion);
+
     }
 
     public void StartTargetFruitAnimation()
@@ -75,8 +79,10 @@ public class TargetFruitAnimation : MonoBehaviour
         Destroy(this, 4f);
     }
 
+
     private void OnDestroy()
     {
+        FindAnyObjectByType<FruitManager>().TargetFruitAniamtion = false;
         Debug.Log("TargetDestroyed");
     }
 

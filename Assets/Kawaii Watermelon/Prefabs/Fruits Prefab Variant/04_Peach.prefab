@@ -63,30 +63,30 @@ PrefabInstance:
     - target: {fileID: 1232862739453509251, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 32483be74692a8047a8346e5bfc6b240, type: 3}
+      objectReference: {fileID: 21300000, guid: 4ffc0f050c9600545ba5edbb4d633293, type: 3}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.25
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.25
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.25
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.45938784
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.3298368
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.z
@@ -118,6 +118,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494043, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
@@ -185,19 +189,40 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.33632672, y: 0.31817308}
-      - {x: 0.19333166, y: 0.39047936}
-      - {x: 0.0031309729, y: 0.43329495}
-      - {x: -0.15802956, y: 0.40602863}
-      - {x: -0.2912797, y: 0.33054838}
-      - {x: -0.40955287, y: 0.22292683}
-      - {x: -0.49080452, y: 0.052277714}
-      - {x: -0.506317, y: -0.09971295}
-      - {x: -0.44089007, y: -0.22670518}
-      - {x: -0.30938238, y: -0.33290654}
-      - {x: 0.022753358, y: -0.5115752}
-      - {x: 0.38740346, y: -0.2798835}
-      - {x: 0.48868805, y: -0.121754855}
-      - {x: 0.4991912, y: 0.038706772}
-      - {x: 0.4563638, y: 0.17751655}
+    - - {x: 1.394895, y: 0.0060252547}
+      - {x: 1.267962, y: 0.264476}
+      - {x: 1.2113714, y: 0.35787293}
+      - {x: 1.1488701, y: 0.43979463}
+      - {x: 1.0647248, y: 0.6967594}
+      - {x: 0.9892489, y: 0.8885813}
+      - {x: 0.9566716, y: 0.95266235}
+      - {x: 0.7997149, y: 1.4413736}
+      - {x: 0.413306, y: 1.8544685}
+      - {x: 0.1308378, y: 1.9368223}
+      - {x: 0.22103812, y: 2.2857707}
+      - {x: 0.06063842, y: 2.3738582}
+      - {x: -0.08423652, y: 1.9111794}
+      - {x: -0.2223125, y: 1.7943879}
+      - {x: -0.4473663, y: 1.6835519}
+      - {x: -0.70616925, y: 1.3060181}
+      - {x: -1.0476319, y: 0.39464197}
+      - {x: -1.5229899, y: -0.33204982}
+      - {x: -1.7170507, y: -0.7267811}
+      - {x: -1.7167982, y: -1.1679006}
+      - {x: -1.656403, y: -1.4940262}
+      - {x: -1.5442384, y: -1.7071872}
+      - {x: -1.3704987, y: -1.9393183}
+      - {x: -0.81217366, y: -2.3483956}
+      - {x: -0.5671245, y: -2.4385448}
+      - {x: -0.0797749, y: -2.456305}
+      - {x: 0.15031019, y: -2.4491072}
+      - {x: 0.58541316, y: -2.4193432}
+      - {x: 0.78831065, y: -2.3448284}
+      - {x: 1.1893336, y: -2.1611989}
+      - {x: 1.4599738, y: -1.8623638}
+      - {x: 1.6601131, y: -1.5743448}
+      - {x: 1.7898387, y: -1.0800344}
+      - {x: 1.7782304, y: -0.6911452}
+      - {x: 1.6948433, y: -0.47120368}
+      - {x: 1.621952, y: -0.34183192}
   m_UseDelaunayMesh: 0

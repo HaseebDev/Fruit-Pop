@@ -63,30 +63,30 @@ PrefabInstance:
     - target: {fileID: 1232862739453509251, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6dfb340ce62d6d0409e8f8078ead6bbc, type: 3}
+      objectReference: {fileID: 21300000, guid: be63dd9a9ebd68e45a73514abe5e9434, type: 3}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.245
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.7757769
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.1253061
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalPosition.z
@@ -118,6 +118,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232862739731494040, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739731494043, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
@@ -173,6 +177,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.0004027784}
+  m_Offset: {x: -0.04479652, y: 0.03251689}
   serializedVersion: 2
-  m_Radius: 0.4995972
+  m_Radius: 2.291531
