@@ -24,19 +24,22 @@ public class MergeManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void CollisionBetweenFruitsCallback(Fruit sender, Fruit otherFruit)
     {
         if (lastSender != null)
             return;
+        if (FindObjectOfType<FruitManager>().TargetFruitAniamtion == true)
+            return;
+
 
         lastSender = sender;
 
@@ -47,6 +50,8 @@ public class MergeManager : MonoBehaviour
 
     private void ProcessMerge(Fruit sender, Fruit otherFruit)
     {
+
+
         FruitType mergeFruitType = sender.GetFruitType();
         mergeFruitType += 1;
 

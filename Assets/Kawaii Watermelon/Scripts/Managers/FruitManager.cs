@@ -15,6 +15,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private Fruit[] spawnableFruits;
     [SerializeField] private Transform fruitsParent;
     [SerializeField] private LineRenderer fruitSpawnLine;
+    [SerializeField] private Transform fruitSpawnObject;
     [SerializeField] private BackgroundManager backgroundManager; // Added BackgroundManager reference
     [SerializeField] private ParticleSystem explosionEffect; // Explosion effect for the end of target cycle
     private Fruit currentFruit;
@@ -298,6 +299,9 @@ public class FruitManager : MonoBehaviour
     private void PlaceLineAtClickedPosition()
     {
         fruitSpawnLine.SetPosition(0, GetSpawnPosition());
+        Vector2 Temp = GetSpawnPosition();
+        Temp.y = Temp.y + 0.55f;
+        fruitSpawnObject.position = Temp;
         fruitSpawnLine.SetPosition(1, GetSpawnPosition() + Vector2.down * 15);
     }
 
@@ -323,6 +327,9 @@ public class FruitManager : MonoBehaviour
 
     private void MergeProcessedCallback(FruitType fruitType, Vector2 spawnPosition)
     {
+        if (TargetFruitAniamtion)
+            return;
+
         for (int i = 0; i < fruitPrefabs.Length; i++)
         {
             if (fruitPrefabs[i].GetFruitType() == fruitType)
@@ -391,12 +398,12 @@ public class FruitManager : MonoBehaviour
 
     private IEnumerator CompleteCycle()
     {
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(4.5f);
         // Play explosion effect
         explosionEffect.Play();
 
         // Wait for the explosion effect to finish
-        yield return new WaitForSeconds(explosionEffect.main.duration);
+        //yield return new WaitForSeconds(explosionEffect.main.duration);
 
         // Add XP to the level
         int explosionXp = 1000; // Adjust as needed

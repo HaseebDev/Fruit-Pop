@@ -8,7 +8,7 @@ using TMPro;
 public class FruitManagerUI : MonoBehaviour
 {
     [Header(" Elements ")]
-    [SerializeField] private Image nextFruitImage;
+    [SerializeField] private SpriteRenderer nextFruitImage;
     private FruitManager fruitManager;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class FruitManagerUI : MonoBehaviour
 
     private void UpdateNextFruitImage()
     {
-        if(fruitManager == null)
+        if (fruitManager == null)
             fruitManager = GetComponent<FruitManager>();
 
         nextFruitImage.sprite = fruitManager.GetNextFruitSprite();

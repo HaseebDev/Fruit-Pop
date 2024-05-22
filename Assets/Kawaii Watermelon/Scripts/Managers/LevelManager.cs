@@ -12,10 +12,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelUpText;
     [SerializeField] private TextMeshProUGUI earnedGemsText;
     [SerializeField] private TextMeshProUGUI earnedCoinsText;
+    [SerializeField] private TextMeshProUGUI GemsBarText;
+    [SerializeField] private TextMeshProUGUI CoinsBarText;
     [SerializeField] private Button CloseLevelUpPanelButton;
 
     [Header("Settings")]
-    [SerializeField] private int initialXpRequirement = 50;
+    [SerializeField] private int initialXpRequirement = 25;
     [SerializeField] private float xpRequirementMultiplier = 1.5f;
     [SerializeField] private int initialGemsReward = 1;
     [SerializeField] private int initialCoinsReward = 20;
@@ -31,8 +33,8 @@ public class LevelManager : MonoBehaviour
 
     private const string LevelKey = "PlayerLevel";
     private const string XpKey = "PlayerXP";
-    private const string GemsKey = "EarnedGems";
-    private const string CoinsKey = "EarnedCoins";
+    private const string GemsKey = "RareCurrency";
+    private const string CoinsKey = "CommonCurrency";
 
 
     private void Start()
@@ -94,11 +96,13 @@ public class LevelManager : MonoBehaviour
 
         // Ensure the panel is exactly at the target scale
         levelUpPanel.transform.localScale = targetScale;
+        GemsBarText.text = PlayerPrefs.GetInt(GemsKey).ToString();
+        CoinsBarText.text = PlayerPrefs.GetInt(CoinsKey).ToString();
     }
 
     private void UpdateUI()
     {
-        levelText.text = "Level: " + currentLevel;
+        levelText.text = currentLevel.ToString();
         xpBar.maxValue = currentXpRequirement;
         xpBar.value = currentXp;
     }
@@ -118,6 +122,8 @@ public class LevelManager : MonoBehaviour
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
         earnedGems = PlayerPrefs.GetInt(GemsKey, 0);
         earnedCoins = PlayerPrefs.GetInt(CoinsKey, 0);
+        GemsBarText.text = PlayerPrefs.GetInt(GemsKey).ToString();
+        CoinsBarText.text = PlayerPrefs.GetInt(CoinsKey).ToString();
     }
 
 
