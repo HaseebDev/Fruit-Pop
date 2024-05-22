@@ -5,11 +5,13 @@ using System;
 
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class FruitManager : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private Fruit[] fruitPrefabs;
+    [SerializeField] private BombManager bombPrefab;
     [SerializeField] private Fruit[] spawnableFruits;
     [SerializeField] private Transform fruitsParent;
     [SerializeField] private LineRenderer fruitSpawnLine;
@@ -37,6 +39,19 @@ public class FruitManager : MonoBehaviour
     [Header(" Level Manager ")]
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private float fallSpeed = 5.0f;
+    [SerializeField] private SpriteRenderer[] targetlock;
+
+    // Add a boolean variable to track if the power-up mode is active
+    private bool isPowerUpActive = false;
+    public bool isPowerUp2Active = false;
+
+    // Reference to the power-up button in the UI
+    [SerializeField] private Button powerUpButton;
+    [SerializeField] private Button powerUp2Button;
+    private BombManager currentBomb; // Variable to track the current bomb being controlled
+    private bool isBombControlling; // Flag to indicate if a bomb is currently being controlled
+    private bool bombSpawnedThisMouseDown = false; // Add a new flag to track bomb spawning
+
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
@@ -53,6 +68,16 @@ public class FruitManager : MonoBehaviour
         SetNextFruitIndex();
         canControl = true;
         HideLine();
+        // Add listener to the power-up button
+        if (powerUpButton != null)
+        {
+            powerUpButton.onClick.AddListener(ActivatePowerUp1);
+        }
+        if (powerUp2Button != null)
+        {
+            powerUp2Button.onClick.AddListener(ActivatePowerUp2);
+
+        }
     }
 
     void Update()
@@ -60,8 +85,51 @@ public class FruitManager : MonoBehaviour
         if (!GameManager.instance.IsGameState())
             return;
 
+        // Check if there are any fruits spawned
+        bool fruitsSpawned = fruitsParent.childCount > 0;
+
+        // Set the interactable state of the power-up buttons based on whether fruits are spawned and whether any power-up is active
+        if (powerUpButton != null && powerUp2Button != null)
+        {
+            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active;
+            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active;
+        }
+
         if (canControl)
             ManagePlayerInput();
+
+
+        if (isPowerUpActive && Input.GetMouseButtonDown(0))
+        {
+            // Check if the power-up mode is active and player clicked
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Fruit clickedFruit = hit.collider.GetComponent<Fruit>();
+                if (clickedFruit != null)
+                {
+                    // Destroy the clicked fruit
+                    Destroy(clickedFruit.gameObject);
+                    // Deactivate the power-up instantly
+
+                    if (i == 0)
+                    {
+                        Invoke(nameof(DelayedBoolienTurnout), 2f);
+                        i++;
+                    }
+                    Debug.Log("Power-up deactivated!");
+                }
+            }
+        }
+
+    }
+    int i = 0;
+    private void DelayedBoolienTurnout()
+    {
+        isPowerUpActive = false;
+        i = 0;
     }
 
     private void ManagePlayerInput()
@@ -70,34 +138,81 @@ public class FruitManager : MonoBehaviour
             MouseDownCallback();
         else if (Input.GetMouseButton(0))
         {
-            if (isControlling)
+            if (isControlling || isBombControlling)
                 MouseDragCallback();
             else
                 MouseDownCallback();
         }
-        else if (Input.GetMouseButtonUp(0) && isControlling)
+        else if (Input.GetMouseButtonUp(0) && isControlling || isBombControlling)
             MouseUpCallback();
     }
 
     private void MouseDownCallback()
     {
-        DisplayLine();
-        PlaceLineAtClickedPosition();
-        SpawnFruit();
-        isControlling = true;
+        if (!isPowerUpActive && !EventSystem.current.IsPointerOverGameObject())
+        {
+            if (!isPowerUp2Active && !isBombControlling) // Check if bomb power-up is not active and no bomb is currently being controlled
+            {
+                DisplayLine();
+                PlaceLineAtClickedPosition();
+                SpawnFruit(); // Spawn a fruit
+                isControlling = true;
+            }
+            else if (isPowerUp2Active && !isBombControlling) // Check if bomb power-up is active and no bomb is currently being controlled
+            {
+                DisplayLine();
+                PlaceLineAtClickedPosition();
+                SpawnBomb(); // Spawn a bomb
+                isBombControlling = true;
+            }
+        }
     }
+
+
+
+
 
     private void MouseDragCallback()
     {
-        PlaceLineAtClickedPosition();
-        currentFruit.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
+        if (isBombControlling)
+        {
+            // Place line at clicked position for bomb
+            PlaceLineAtClickedPosition();
+            // Move the bomb to the new position
+            currentBomb.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
+        }
+        else
+        {
+            // Place line at clicked position for fruit
+            PlaceLineAtClickedPosition();
+            // Move the current fruit
+            currentFruit.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
+        }
     }
+
 
     private void MouseUpCallback()
     {
         HideLine();
-        if (currentFruit != null)
-            currentFruit.EnablePhysics();
+        if (isBombControlling)
+        {
+            if (currentBomb != null)
+            {
+
+                if (currentBomb != null)
+                {
+                    currentBomb.EnablePhysics();
+                }
+            }
+            // Stop controlling the bomb
+            StopBombControl();
+        }
+        else
+        {
+            // Stop controlling the fruit
+            if (currentFruit != null)
+                currentFruit.EnablePhysics();
+        }
         canControl = false;
         StartControlTimer();
         isControlling = false;
@@ -105,10 +220,13 @@ public class FruitManager : MonoBehaviour
 
     private void SpawnFruit()
     {
+
         Vector2 spawnPosition = GetSpawnPosition();
         Fruit fruitToInstantiate = spawnableFruits[nextFruitIndex];
         currentFruit = Instantiate(fruitToInstantiate, spawnPosition, Quaternion.identity, fruitsParent);
         SetNextFruitIndex();
+
+
     }
 
     private void SetNextFruitIndex()
@@ -264,8 +382,8 @@ public class FruitManager : MonoBehaviour
         {
             StartCoroutine(CompleteCycle());
         }
-
-        UpdateTargetFruitImage(); // Update the target image
+        Invoke(nameof(UpdateTargetFruitImage), 4f);  // Update the target image
+        //UpdateTargetFruitImage();
     }
 
     private IEnumerator CompleteCycle()
@@ -301,6 +419,11 @@ public class FruitManager : MonoBehaviour
     {
         if (targetFruitImage != null && fruitPrefabs.Length > targetFruitIndex)
         {
+            foreach (SpriteRenderer target in targetlock)
+            {
+                target.sprite = fruitPrefabs[targetFruitIndex].GetSprite();
+            }
+
             targetFruitImage.sprite = fruitPrefabs[targetFruitIndex].GetSprite();
         }
     }
@@ -308,6 +431,12 @@ public class FruitManager : MonoBehaviour
     {
         if (targetFruitImage != null && fruitPrefabs.Length > targetFruitIndex)
         {
+            foreach (SpriteRenderer target in targetlock)
+            {
+                target.sprite = fruitPrefabs[targetFruitIndex].GetSprite();
+            }
+
+
             targetFruitImage.sprite = fruitPrefabs[targetFruitIndex].GetSprite();
         }
     }
@@ -359,7 +488,31 @@ public class FruitManager : MonoBehaviour
 
         // Trigger the completion of the transition or any other desired action here
     }
+    // Method to activate the power-up1 mode
+    private void ActivatePowerUp1()
+    {
+        isPowerUpActive = true;
+        // You can add visual feedback or any other effects to indicate the power-up mode is active
+        Debug.Log("Power-up activated!");
+    }
+    private void ActivatePowerUp2()
+    {
+        isPowerUp2Active = true;
+        Debug.Log("Power-up activated!");
 
+    }
+    private void SpawnBomb()
+    {
+        Vector2 spawnPosition = GetSpawnPosition();
+        BombManager bombToInstantiate = bombPrefab;
+        currentBomb = Instantiate(bombToInstantiate, spawnPosition, Quaternion.identity);
+        isBombControlling = true; // Set flag to indicate bomb is being controlled
+    }
+
+    private void StopBombControl()
+    {
+        isBombControlling = false; // Reset flag
+    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

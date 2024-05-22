@@ -30,7 +30,7 @@ public class TargetFruitAnimation : MonoBehaviour
         {
             originalPosition = fruitTransform.position;
             initialCameraPosition = mainCamera.transform.position; // Store initial camera position
-            targetYPosition = initialCameraPosition.y - 10.225f;
+            targetYPosition = initialCameraPosition.y - 10.2f;
             StartCoroutine(AnimateTargetFruit());
         }
     }
