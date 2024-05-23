@@ -6,6 +6,7 @@ using System;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using static SaveLoadManager;
 
 public class FruitManager : MonoBehaviour
 {
@@ -54,7 +55,9 @@ public class FruitManager : MonoBehaviour
     private bool bombSpawnedThisMouseDown = false; // Add a new flag to track bomb spawning
 
     public bool TargetFruitAniamtion = false;
-
+    [SerializeField] private SaveLoadManager saveLoadManager;
+    private float saveInterval = 30f; // Time interval for periodic saves
+    private float saveTimer = 0f;
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
@@ -81,10 +84,25 @@ public class FruitManager : MonoBehaviour
             powerUp2Button.onClick.AddListener(ActivatePowerUp2);
 
         }
+
+        LoadFruitPositions();
     }
 
     void Update()
     {
+        // Update the save timer
+        saveTimer += Time.deltaTime;
+
+        // Check if it's time to save
+        if (saveTimer >= saveInterval)
+        {
+            SaveFruitPositions();
+            saveTimer = 0f; // Reset the timer
+            Debug.Log("Game-Saved");
+        }
+
+
+
         // Check if the game state is active and if TargetFruitAnimation is false
         if (!GameManager.instance.IsGameState() || TargetFruitAniamtion)
             return;
@@ -525,6 +543,64 @@ public class FruitManager : MonoBehaviour
     {
         isBombControlling = false; // Reset flag
     }
+
+
+
+    private void SaveFruitPositions()
+    {
+        List<FruitData> fruitsData = new List<FruitData>();
+        foreach (Transform fruitTransform in fruitsParent)
+        {
+            Fruit fruit = fruitTransform.GetComponent<Fruit>();
+            if (fruit != null)
+            {
+                FruitData fruitData = new FruitData();
+                fruitData.position = new SerializableVector3(fruitTransform.position);
+                fruitData.fruitIndex = (int)fruit.GetFruitType(); // Get the fruit type and cast it to int for index
+                fruitsData.Add(fruitData);
+            }
+        }
+
+        saveLoadManager.SaveGameData(fruitsData);
+    }
+
+
+
+    private void LoadFruitPositions()
+    {
+        List<SaveLoadManager.FruitData> fruitsData = saveLoadManager.LoadGameData();
+
+        foreach (FruitData fruitData in fruitsData)
+        {
+            Vector3 position = fruitData.position.ToVector3();
+            int fruitIndex = fruitData.fruitIndex;
+            SpawnFruitAtPosition(position, fruitIndex);
+        }
+    }
+
+    private int GetFruitIndex(Fruit fruit)
+    {
+        for (int i = 0; i < spawnableFruits.Length; i++)
+        {
+            if (fruit.GetType() == spawnableFruits[i].GetType())
+            {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the fruit type is not found in the spawnableFruits array
+    }
+
+    private void SpawnFruitAtPosition(Vector3 position, int fruitIndex)
+    {
+        if (fruitIndex >= 0 && fruitIndex < spawnableFruits.Length)
+        {
+            Fruit fruitToSpawn = spawnableFruits[fruitIndex];
+            Fruit spawnedFruit = Instantiate(fruitToSpawn, position, Quaternion.identity, fruitsParent);
+            spawnedFruit.EnablePhysics(); // Enable physics for the spawned fruit immediately
+        }
+    }
+
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

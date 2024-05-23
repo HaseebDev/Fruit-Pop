@@ -85,6 +85,7 @@ public class UIManager : MonoBehaviour
 
     public void NextButtonCallback()
     {
+        SaveLoadManager.Instance.ClearGameData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
