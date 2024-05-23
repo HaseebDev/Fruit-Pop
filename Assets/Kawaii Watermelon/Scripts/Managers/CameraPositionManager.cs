@@ -5,7 +5,7 @@ public class CameraPositionManager : MonoBehaviour
 {
     private Camera mainCamera;
     private string savePath;
-    private float saveInterval = 30f;
+    private float saveInterval = 15f;
     private float elapsedTime = 0f;
 
     void Start()

@@ -56,7 +56,7 @@ public class FruitManager : MonoBehaviour
 
     public bool TargetFruitAniamtion = false;
     [SerializeField] private SaveLoadManager saveLoadManager;
-    private float saveInterval = 30f; // Time interval for periodic saves
+    private float saveInterval = 15f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private const string targetFruitIndexKey = "TargetFruitIndex";
     private void Awake()
@@ -71,6 +71,10 @@ public class FruitManager : MonoBehaviour
 
     void Start()
     {
+        if (!PlayerPrefs.HasKey(targetFruitIndexKey))
+            PlayerPrefs.SetInt(targetFruitIndexKey, 5);
+        targetFruitIndex = PlayerPrefs.GetInt(targetFruitIndexKey);
+        Debug.Log("TargetFruitIndex " + targetFruitIndex);
         SetInitialTargetFruitImage();
         SetNextFruitIndex();
         canControl = true;
@@ -85,10 +89,7 @@ public class FruitManager : MonoBehaviour
             powerUp2Button.onClick.AddListener(ActivatePowerUp2);
 
         }
-        if (!PlayerPrefs.HasKey(targetFruitIndexKey))
-            PlayerPrefs.SetInt(targetFruitIndexKey, 5);
-        targetFruitIndex = PlayerPrefs.GetInt(targetFruitIndexKey);
-        Debug.Log("TargetFruitIndex " + targetFruitIndex);
+
         LoadFruitPositions();
     }
 
@@ -598,9 +599,9 @@ public class FruitManager : MonoBehaviour
 
     private void SpawnFruitAtPosition(Vector3 position, int fruitIndex)
     {
-        if (fruitIndex >= 0 && fruitIndex < spawnableFruits.Length)
+        if (fruitIndex >= 0 && fruitIndex < fruitPrefabs.Length)
         {
-            Fruit fruitToSpawn = spawnableFruits[fruitIndex];
+            Fruit fruitToSpawn = fruitPrefabs[fruitIndex];
             Fruit spawnedFruit = Instantiate(fruitToSpawn, position, Quaternion.identity, fruitsParent);
             spawnedFruit.EnablePhysics(); // Enable physics for the spawned fruit immediately
         }

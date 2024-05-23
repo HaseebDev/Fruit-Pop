@@ -13,7 +13,7 @@ public class BackgroundManager : MonoBehaviour
     int moveCount = 0; // New counter to keep track of the number of times backgrounds are moved
 
     private string saveFileName = "background_data.json";
-    private float saveInterval = 30f; // Time interval for periodic saves
+    private float saveInterval = 15f; // Time interval for periodic saves
     private float saveTimer = 0f;
 
     void Start()
