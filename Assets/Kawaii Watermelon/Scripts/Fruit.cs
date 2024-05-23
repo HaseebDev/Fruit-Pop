@@ -38,8 +38,10 @@ public class Fruit : MonoBehaviour
 
     public void MoveTo(Vector2 targetPosition)
     {
-        transform.position = targetPosition;
+        float clampedX = Mathf.Clamp(targetPosition.x, -2.263969f, 2.263969f);
+        transform.position = new Vector2(clampedX, targetPosition.y);
     }
+
 
     public void EnablePhysics()
     {

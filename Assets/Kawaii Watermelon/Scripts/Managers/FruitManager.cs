@@ -391,8 +391,14 @@ public class FruitManager : MonoBehaviour
     {
         Vector2 worldClickedPosition = GetClickedWorldPosition();
         worldClickedPosition.y = fruitsYSpawnPosT.position.y;
+
+        // Clamping x-coordinate
+        float clampedX = Mathf.Clamp(worldClickedPosition.x, -2.263969f, 2.263969f);
+        worldClickedPosition.x = clampedX;
+
         return worldClickedPosition;
     }
+
 
     private void PlaceLineAtClickedPosition()
     {
