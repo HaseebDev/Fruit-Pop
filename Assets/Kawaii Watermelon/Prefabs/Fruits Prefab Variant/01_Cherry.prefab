@@ -10,14 +10,30 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 280420988, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0
+      value: 0.40000004
       objectReference: {fileID: 0}
     - target: {fileID: 280420988, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
+      value: 0.8470589
       objectReference: {fileID: 0}
     - target: {fileID: 280420988, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.9960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 280420989, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 280420989, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 280420989, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 280420989, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1232862739453509251, guid: f1bca01a9c697894b92ae4eadd517c89, type: 3}

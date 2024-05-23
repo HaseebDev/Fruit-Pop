@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject gameoverPanel;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private Button _ReviveButton;
 
     private void Awake()
     {
@@ -24,18 +26,19 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _ReviveButton.onClick.AddListener(ReviveButton);
         //SetMenu();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void GameStateChangedCallback(GameState gameState)
     {
-        switch(gameState)
+        switch (gameState)
         {
             case GameState.Menu:
                 SetMenu();
@@ -69,6 +72,7 @@ public class UIManager : MonoBehaviour
     private void SetGameover()
     {
         gameoverPanel.SetActive(true);
+        FindAnyObjectByType<LevelManager>().UpdateUI();
         menuPanel.SetActive(false);
         gamePanel.SetActive(false);
     }
@@ -81,7 +85,35 @@ public class UIManager : MonoBehaviour
 
     public void NextButtonCallback()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void ReviveButton()
+    {
+        if (PlayerPrefs.GetInt("RareCurrency") >= 12)
+        {
+            // Close gameover panel
+            gameoverPanel.SetActive(false);
+            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 12);
+            FindAnyObjectByType<LevelManager>().UpdateUI();
+            // Destroy fruits above or touching the deadline
+            Fruit[] fruits = FindObjectsOfType<Fruit>();
+            foreach (Fruit fruit in fruits)
+            {
+                if (fruit.transform.position.y >= FindAnyObjectByType<GameoverManager>().deadLine.transform.position.y)
+                {
+                    Destroy(fruit.gameObject);
+                }
+            }
+
+            // Reset game state or perform any other necessary actions
+            GameManager.instance.SetGameState();
+        }
+        else
+        {
+            _ReviveButton.interactable = false;
+        }
+
     }
 
     public void SettingsButtonCallback()

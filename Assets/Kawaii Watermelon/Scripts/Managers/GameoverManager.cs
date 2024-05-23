@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameoverManager : MonoBehaviour
 {
     [Header(" Elements ")]
-    [SerializeField] private GameObject deadLine;
+    [SerializeField] public GameObject deadLine;
     [SerializeField] private Transform fruitsParent;
 
     [Header(" Timer ")]
@@ -17,14 +17,14 @@ public class GameoverManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!isGameover)
-            ManageGameover();      
+        if (!isGameover)
+            ManageGameover();
     }
 
     private void ManageGameover()
@@ -37,7 +37,7 @@ public class GameoverManager : MonoBehaviour
                 StartTimer();
         }
     }
-    
+
     private void ManageTimerOn()
     {
         timer += Time.deltaTime;

@@ -302,7 +302,7 @@ public class FruitManager : MonoBehaviour
         Vector2 Temp = GetSpawnPosition();
         Temp.y = Temp.y + 0.55f;
         fruitSpawnObject.position = Temp;
-        fruitSpawnLine.SetPosition(1, GetSpawnPosition() + Vector2.down * 15);
+        fruitSpawnLine.SetPosition(1, GetSpawnPosition() + Vector2.down * 6);
     }
 
     private void HideLine()
@@ -424,7 +424,7 @@ public class FruitManager : MonoBehaviour
     private int CalculateXpForMerge(FruitType fruitType)
     {
         // Adjust the XP values based on the fruit type
-        return (int)Mathf.Pow(2, (int)fruitType); // Example calculation, you can adjust as needed
+        return (int)Mathf.Pow(2, (int)fruitType) * 2; // Example calculation, you can adjust as needed
     }
     private void SetInitialTargetFruitImage()
     {
