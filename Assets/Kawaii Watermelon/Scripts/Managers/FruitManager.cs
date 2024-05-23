@@ -58,6 +58,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private SaveLoadManager saveLoadManager;
     private float saveInterval = 30f; // Time interval for periodic saves
     private float saveTimer = 0f;
+    private const string targetFruitIndexKey = "TargetFruitIndex";
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
@@ -84,7 +85,10 @@ public class FruitManager : MonoBehaviour
             powerUp2Button.onClick.AddListener(ActivatePowerUp2);
 
         }
-
+        if (!PlayerPrefs.HasKey(targetFruitIndexKey))
+            PlayerPrefs.SetInt(targetFruitIndexKey, 5);
+        targetFruitIndex = PlayerPrefs.GetInt(targetFruitIndexKey);
+        Debug.Log("TargetFruitIndex " + targetFruitIndex);
         LoadFruitPositions();
     }
 
@@ -405,6 +409,7 @@ public class FruitManager : MonoBehaviour
         if (targetFruitIndex < fruitPrefabs.Length - 1)
         {
             targetFruitIndex++;
+            PlayerPrefs.SetInt(targetFruitIndexKey, targetFruitIndex);
         }
         else
         {
@@ -435,6 +440,7 @@ public class FruitManager : MonoBehaviour
 
         // Reset target fruit index to element 5
         targetFruitIndex = 5;
+        PlayerPrefs.SetInt(targetFruitIndexKey, targetFruitIndex);
         UpdateTargetFruitImage();
     }
 
