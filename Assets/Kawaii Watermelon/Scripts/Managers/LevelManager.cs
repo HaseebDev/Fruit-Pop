@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float gemsRewardMultiplier = 1.2f;
     [SerializeField] private float coinsRewardMultiplier = 1.3f;
     [SerializeField] private float animationDuration = 1f;
+    [SerializeField] private AudioSource LevelComplete;
 
     private int currentLevel;
     private int currentXp;
@@ -57,6 +58,7 @@ public class LevelManager : MonoBehaviour
         {
             currentXp -= currentXpRequirement;
             LevelUp();
+            LevelComplete.Play();
         }
 
         UpdateUI();

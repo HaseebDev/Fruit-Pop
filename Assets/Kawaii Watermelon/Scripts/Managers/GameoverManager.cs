@@ -7,6 +7,7 @@ public class GameoverManager : MonoBehaviour
     [Header(" Elements ")]
     [SerializeField] public GameObject deadLine;
     [SerializeField] private Transform fruitsParent;
+    [SerializeField] private AudioSource GameOverSound;
 
     [Header(" Timer ")]
     [SerializeField] private float durationThreshold;
@@ -88,7 +89,7 @@ public class GameoverManager : MonoBehaviour
     {
         Debug.LogError("Gameover");
         isGameover = true;
-
+        GameOverSound.Play();
         GameManager.instance.SetGameoverState();
     }
 }

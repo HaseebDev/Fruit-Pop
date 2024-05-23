@@ -71,7 +71,7 @@ public class TargetFruitAnimation : MonoBehaviour
             fruitTransform.position = Vector3.MoveTowards(fruitTransform.position, targetPosition, fallSpeed * Time.deltaTime);
             yield return null;
         }
-
+        GameObject.Find("AudioSourceFruitComingDownAudio").GetComponent<AudioSource>().Play();
         smoothness = 3f;
         isAnimating = false;
         fruitRigidbody.isKinematic = false;

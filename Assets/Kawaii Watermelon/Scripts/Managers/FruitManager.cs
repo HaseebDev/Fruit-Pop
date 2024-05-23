@@ -56,6 +56,9 @@ public class FruitManager : MonoBehaviour
 
     public bool TargetFruitAniamtion = false;
     [SerializeField] private SaveLoadManager saveLoadManager;
+    [SerializeField] private AudioSource FruitSpawnAudioSource;
+    [SerializeField] private AudioSource CompleteCycleBlast;
+    [SerializeField] private AudioSource HammerPowerUpSoundEffect;
     private float saveInterval = 15f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private const string targetFruitIndexKey = "TargetFruitIndex";
@@ -137,6 +140,7 @@ public class FruitManager : MonoBehaviour
                 if (clickedFruit != null)
                 {
                     // Destroy the clicked fruit
+                    HammerPowerUpSoundEffect.Play();
                     Destroy(clickedFruit.gameObject);
                     // Deactivate the power-up instantly
 
@@ -246,6 +250,7 @@ public class FruitManager : MonoBehaviour
 
     private void SpawnFruit()
     {
+        FruitSpawnAudioSource.Play();
 
         Vector2 spawnPosition = GetSpawnPosition();
         Fruit fruitToInstantiate = spawnableFruits[nextFruitIndex];
@@ -425,7 +430,7 @@ public class FruitManager : MonoBehaviour
         yield return new WaitForSeconds(4.5f);
         // Play explosion effect
         explosionEffect.Play();
-
+        CompleteCycleBlast.Play();
         // Wait for the explosion effect to finish
         //yield return new WaitForSeconds(explosionEffect.main.duration);
 
