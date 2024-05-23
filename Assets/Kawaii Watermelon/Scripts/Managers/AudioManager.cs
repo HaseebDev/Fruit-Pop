@@ -10,25 +10,25 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
-        SettingsManager.onSFXValueChanged += SFXValueChangedCallback;
+        //SettingsManager.onSFXValueChanged += SFXValueChangedCallback;
     }
 
     private void OnDestroy()
     {
         MergeManager.onMergeProcessed -= MergeProcessedCallback;
-        SettingsManager.onSFXValueChanged -= SFXValueChangedCallback;
+        //SettingsManager.onSFXValueChanged -= SFXValueChangedCallback;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void MergeProcessedCallback(FruitType fruitType, Vector2 mergePos)

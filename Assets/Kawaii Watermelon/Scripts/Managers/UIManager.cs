@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _ReviveButton.onClick.AddListener(ReviveButton);
+        PlayButtonCallback();
         //SetMenu();
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -790,4 +790,13 @@ public class FruitManager : MonoBehaviour
         Gizmos.DrawLine(new Vector3(-50, fruitsYSpawnPosT.position.y, 0), new Vector3(50, fruitsYSpawnPosT.position.y, 0));
     }
 #endif
+
+
+    public void BackButton()
+    {
+        SaveFruitPositions();
+        backgroundManager.SaveBackgroundData();
+        SceneManager.LoadScene(1);
+
+    }
 }

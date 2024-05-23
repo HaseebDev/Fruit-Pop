@@ -7,6 +7,7 @@ using System.Collections;
 public class BackgroundManager : MonoBehaviour
 {
     public GameObject[] backgrounds;  // Array to hold your backgrounds
+    public Sprite[] backgroundSprites;  // Array to hold your backgrounds
     private float backgroundHeight = 10.2f;  // Height difference between backgrounds
     int BackGroundNumber = 0;
     int check = 0; // This variable is used within your logic
@@ -15,14 +16,16 @@ public class BackgroundManager : MonoBehaviour
     private string saveFileName = "background_data.json";
     private float saveInterval = 15f; // Time interval for periodic saves
     private float saveTimer = 0f;
-
+    private int currentActiveBackground;
     void Start()
     {
 
+        //currentActiveBackground = PlayerPrefs.GetInt("YourUnlockKey");
         // Initial placement of backgrounds
         for (int i = 0; i < backgrounds.Length; i++)
         {
             backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
+            backgrounds[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backgroundSprites[currentActiveBackground];
         }
         LoadBackgroundData();
     }
@@ -67,7 +70,7 @@ public class BackgroundManager : MonoBehaviour
         }
     }
 
-    private void SaveBackgroundData()
+    public void SaveBackgroundData()
     {
         List<SerializableBackgroundData> backgroundsData = new List<SerializableBackgroundData>();
 
