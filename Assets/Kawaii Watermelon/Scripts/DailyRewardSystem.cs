@@ -241,6 +241,7 @@ public class DailyRewardSystem : MonoBehaviour
                     Debug.LogError("Invalid reward day");
                     break;
             }
+            MainMenuManager.Instance.UpdateCurrencyUi();
         }
         else
         {

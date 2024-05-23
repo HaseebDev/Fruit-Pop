@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +19,19 @@ public class MainMenuManager : MonoBehaviour
     private int currentXp;
     private int currentXpRequirement;
     [SerializeField] AudioSource musicSource;
+
+    public static MainMenuManager Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +40,7 @@ public class MainMenuManager : MonoBehaviour
         currentXp = PlayerPrefs.GetInt(XpKey, 0);
 
         // Update UI elements
-        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, commonCurrencyText);
-        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Rare, rareCurrencyText);
+        UpdateCurrencyUi();
         LevelSlider.maxValue = currentXpRequirement;
         LevelSlider.value = currentXp;
         CurrentProgressLevelText.text = currentXp + "/" + currentXpRequirement;
@@ -44,7 +55,11 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
-
+    public void UpdateCurrencyUi()
+    {
+        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, commonCurrencyText);
+        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Rare, rareCurrencyText);
+    }
     public void TapToPlayButton()
     {
         SceneManager.LoadScene(2);

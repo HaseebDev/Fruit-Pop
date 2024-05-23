@@ -61,6 +61,7 @@ public class HourlyRewardDisplay : MonoBehaviour
                     rewardText.text = randomRewardAmount.ToString();
                     rewardPanel.SetActive(true);
                     AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Common, randomRewardAmount);
+                    MainMenuManager.Instance.UpdateCurrencyUi();
                     Debug.Log($"Reward {dailyReward.RewardInstance.name} successfully claimed.");
 
                     break;
