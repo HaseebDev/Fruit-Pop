@@ -2571,7 +2571,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 226274061}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &226274061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3389,7 +3401,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 331554103}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &331554103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4815,7 +4839,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 438732838}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &438732838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8651,7 +8687,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 936445227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &936445227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9027,7 +9075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 977492475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &977492475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9448,7 +9508,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1035968084}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 352341698}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1035968084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19989,6 +20061,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mergeSource: {fileID: 951437872}
+  musicSource: {fileID: 1094122908}
+  soundSources:
+  - {fileID: 951437872}
+  - {fileID: 352341698}
+  - {fileID: 435961825}
+  - {fileID: 769385193}
+  - {fileID: 587162427}
+  - {fileID: 1584430466}
+  - {fileID: 1515458616}
+  - {fileID: 2135330352}
+  - {fileID: 205680864}
 --- !u!1 &2135330350
 GameObject:
   m_ObjectHideFlags: 0

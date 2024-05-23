@@ -19,6 +19,7 @@ public class MainMenuManager : MonoBehaviour
     private int currentLevel;
     private int currentXp;
     private int currentXpRequirement;
+    [SerializeField] AudioSource musicSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,14 @@ public class MainMenuManager : MonoBehaviour
         LevelSlider.value = currentXp;
         CurrentProgressLevelText.text = currentXp + "/" + currentXpRequirement;
         CurrentLevelText.text = currentLevel.ToString();
+        //--------------
+        float MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+        Debug.Log("Music Volume is " + MusicVolume);
+
+        float mappedMusicVolume = MusicVolume * 0.25f; // Map the value to a maximum of 0.25
+        musicSource.volume = mappedMusicVolume;
+        Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
+
     }
 
 

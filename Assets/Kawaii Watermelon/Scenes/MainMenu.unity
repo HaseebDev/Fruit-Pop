@@ -3806,6 +3806,7 @@ MonoBehaviour:
   CurrentLevelText: {fileID: 1113654729}
   CurrentProgressLevelText: {fileID: 1232665293}
   LevelSlider: {fileID: 1037490870}
+  musicSource: {fileID: 1582340016}
 --- !u!1 &648513205
 GameObject:
   m_ObjectHideFlags: 0
@@ -4649,8 +4650,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 305116129}
-  - {fileID: 855737197}
   - {fileID: 777839643}
+  - {fileID: 855737197}
   - {fileID: 1874316525}
   - {fileID: 301679239}
   m_Father: {fileID: 1896566133}
@@ -4888,7 +4889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 537.5, y: -177.075}
+  m_AnchoredPosition: {x: 332.5, y: -177.075}
   m_SizeDelta: {x: 185, y: 297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &777839644
@@ -5563,7 +5564,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 332.5, y: -177.075}
+  m_AnchoredPosition: {x: 537.5, y: -177.075}
   m_SizeDelta: {x: 185, y: 297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &855737198

@@ -6,7 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private AudioSource mergeSource;
-
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource[] soundSources;
     private void Awake()
     {
         MergeManager.onMergeProcessed += MergeProcessedCallback;
@@ -22,8 +23,30 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        LoadSettings();
     }
+
+
+    void LoadSettings()
+    {
+        // Adjust the music volume
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+        Debug.Log("Music Volume is " + musicVolume);
+
+        float mappedMusicVolume = musicVolume * 0.25f; // Map the value to a maximum of 0.25
+        musicSource.volume = mappedMusicVolume;
+        Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
+
+        // Adjust sound volume
+        float soundVolume = PlayerPrefs.GetFloat("SoundVolume");
+        Debug.Log("Sound Volume is " + soundVolume);
+
+        foreach (AudioSource audioSource in soundSources)
+        {
+            audioSource.volume = soundVolume;
+        }
+    }
+
 
     // Update is called once per frame
     void Update()

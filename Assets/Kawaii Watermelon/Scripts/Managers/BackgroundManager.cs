@@ -19,8 +19,8 @@ public class BackgroundManager : MonoBehaviour
     private int currentActiveBackground;
     void Start()
     {
-
-        //currentActiveBackground = PlayerPrefs.GetInt("YourUnlockKey");
+       // PlayerPrefs.SetInt("SelectedBg", 1);
+        currentActiveBackground = PlayerPrefs.GetInt("SelectedBg");
         // Initial placement of backgrounds
         for (int i = 0; i < backgrounds.Length; i++)
         {

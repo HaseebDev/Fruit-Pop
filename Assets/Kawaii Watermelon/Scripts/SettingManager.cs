@@ -31,6 +31,8 @@ public class SettingManager : MonoBehaviour
         UpdateVibrationButtonSprite();
 
         vibrationButton.onClick.AddListener(ToggleVibration);
+
+ 
     }
 
     private void OnDisable()

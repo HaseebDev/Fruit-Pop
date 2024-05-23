@@ -35,11 +35,13 @@ public class BombManager : MonoBehaviour
         // Optionally, play explosion effect or animation
         if (explosionEffect != null)
         {
+            GameObject.Find("AudioSourceBombPowerUpBlast").GetComponent<AudioSource>().Play();
             explosionEffect.Play();
             //Debug.Log("Nice");
 
             // Detach the particle effect object from its parent
             explosionEffect.transform.SetParent(null);
+
         }
 
         // Destroy the bomb object
