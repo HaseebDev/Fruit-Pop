@@ -12,7 +12,8 @@ public enum FruitType
     Orange,
     Melon,
     Coconut,
-    Watermelon
+    Watermelon,
+    RainBowBall
 }
 
 public enum GameState

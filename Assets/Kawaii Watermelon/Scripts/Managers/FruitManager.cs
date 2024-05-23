@@ -13,6 +13,7 @@ public class FruitManager : MonoBehaviour
     [Header(" Elements ")]
     [SerializeField] private Fruit[] fruitPrefabs;
     [SerializeField] private BombManager bombPrefab;
+    [SerializeField] private Fruit RainbowbombPrefab;
     [SerializeField] private Fruit[] spawnableFruits;
     [SerializeField] private Transform fruitsParent;
     [SerializeField] private LineRenderer fruitSpawnLine;
@@ -50,8 +51,12 @@ public class FruitManager : MonoBehaviour
     // Reference to the power-up button in the UI
     [SerializeField] private Button powerUpButton;
     [SerializeField] private Button powerUp2Button;
+    public bool isPowerUp3Active = false;
+    [SerializeField] private Button powerUp3Button;
     private BombManager currentBomb; // Variable to track the current bomb being controlled
+    private Fruit RainbowcurrentBomb; // Variable to track the current bomb being controlled
     private bool isBombControlling; // Flag to indicate if a bomb is currently being controlled
+    private bool isPowerUp3Controlling; // Flag to indicate if a bomb is currently being controlled
     private bool bombSpawnedThisMouseDown = false; // Add a new flag to track bomb spawning
 
     public bool TargetFruitAniamtion = false;
@@ -59,6 +64,15 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private AudioSource FruitSpawnAudioSource;
     [SerializeField] private AudioSource CompleteCycleBlast;
     [SerializeField] private AudioSource HammerPowerUpSoundEffect;
+    [SerializeField] private GameObject HammerPowerUpPanel;
+    [SerializeField] private Button HammerPowerUpAdButton;
+    [SerializeField] private Button HammerPowerUpCurrencyButton;
+    [SerializeField] private GameObject StrawBerryPowerUpPanel;
+    [SerializeField] private Button StrawBerryPowerUpAdButton;
+    [SerializeField] private Button StrawBerryPowerUpCurrencyButton;
+    [SerializeField] private GameObject RainbowPowerUpPanel;
+    [SerializeField] private Button RainbowPowerUpAdButton;
+    [SerializeField] private Button RainbowPowerUpCurrencyButton;
     private float saveInterval = 15f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private const string targetFruitIndexKey = "TargetFruitIndex";
@@ -92,7 +106,35 @@ public class FruitManager : MonoBehaviour
             powerUp2Button.onClick.AddListener(ActivatePowerUp2);
 
         }
+        if (powerUp3Button != null)
+        {
+            powerUp3Button.onClick.AddListener(ActivatePowerUp3);
+        }
 
+        if (HammerPowerUpAdButton != null)
+        {
+            HammerPowerUpAdButton.onClick.AddListener(ActivatePowerUp1AdButton);
+        }
+        if (HammerPowerUpCurrencyButton != null)
+        {
+            HammerPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp1PriceButton);
+        }
+        if (StrawBerryPowerUpAdButton != null)
+        {
+            StrawBerryPowerUpAdButton.onClick.AddListener(ActivatePowerUp2AdButton);
+        }
+        if (StrawBerryPowerUpCurrencyButton != null)
+        {
+            StrawBerryPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp2PriceButton);
+        }
+        if (RainbowPowerUpAdButton != null)
+        {
+            RainbowPowerUpAdButton.onClick.AddListener(ActivatePowerUp3AdButton);
+        }
+        if (RainbowPowerUpCurrencyButton != null)
+        {
+            RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
+        }
         LoadFruitPositions();
     }
 
@@ -120,8 +162,9 @@ public class FruitManager : MonoBehaviour
 
         if (powerUpButton != null && powerUp2Button != null)
         {
-            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !TargetFruitAniamtion;
-            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !TargetFruitAniamtion;
+            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
+            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
+            powerUp3Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
         }
 
         if (canControl)
@@ -168,12 +211,12 @@ public class FruitManager : MonoBehaviour
             MouseDownCallback();
         else if (Input.GetMouseButton(0))
         {
-            if (isControlling || isBombControlling)
+            if (isControlling || isBombControlling || isPowerUp3Controlling)
                 MouseDragCallback();
             else
                 MouseDownCallback();
         }
-        else if (Input.GetMouseButtonUp(0) && isControlling || isBombControlling)
+        else if (Input.GetMouseButtonUp(0) && isControlling || isBombControlling || isPowerUp3Controlling)
             MouseUpCallback();
     }
 
@@ -181,7 +224,7 @@ public class FruitManager : MonoBehaviour
     {
         if (!isPowerUpActive && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (!isPowerUp2Active && !isBombControlling) // Check if bomb power-up is not active and no bomb is currently being controlled
+            if (!isPowerUp2Active && !isBombControlling && !isPowerUp3Active && !isPowerUp3Controlling) // Check if bomb power-up is not active and no bomb is currently being controlled
             {
                 DisplayLine();
                 PlaceLineAtClickedPosition();
@@ -194,6 +237,13 @@ public class FruitManager : MonoBehaviour
                 PlaceLineAtClickedPosition();
                 SpawnBomb(); // Spawn a bomb
                 isBombControlling = true;
+            }
+            else if (isPowerUp3Active && !isPowerUp3Controlling)
+            {
+                DisplayLine();
+                PlaceLineAtClickedPosition();
+                SpawnPowerUp3(); // Spawn a bomb
+                isPowerUp3Controlling = true;
             }
         }
     }
@@ -210,6 +260,13 @@ public class FruitManager : MonoBehaviour
             PlaceLineAtClickedPosition();
             // Move the bomb to the new position
             currentBomb.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
+        }
+        else if (isPowerUp3Controlling)
+        {
+            // Place line at clicked position for bomb
+            PlaceLineAtClickedPosition();
+            // Move the bomb to the new position
+            RainbowcurrentBomb.MoveTo(new Vector2(GetSpawnPosition().x, fruitsYSpawnPosT.transform.position.y));
         }
         else
         {
@@ -236,6 +293,19 @@ public class FruitManager : MonoBehaviour
             }
             // Stop controlling the bomb
             StopBombControl();
+        }
+        else if (isPowerUp3Controlling)
+        {
+            if (RainbowcurrentBomb != null)
+            {
+
+                if (RainbowcurrentBomb != null)
+                {
+                    RainbowcurrentBomb.EnablePhysics();
+                }
+            }
+            // Stop controlling the bomb
+            StopPowerup3Control();
         }
         else
         {
@@ -532,23 +602,119 @@ public class FruitManager : MonoBehaviour
     // Method to activate the power-up1 mode
     private void ActivatePowerUp1()
     {
-        isPowerUpActive = true;
+        HammerPowerUpPanel.SetActive(true);
+        // isPowerUpActive = true;
         // You can add visual feedback or any other effects to indicate the power-up mode is active
         Debug.Log("Power-up activated!");
         //Show Rewarded
     }
+
+    private void ActivatePowerUp1PriceButton()
+    {
+
+        if (PlayerPrefs.GetInt("RareCurrency") >= 8)
+        {
+            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 8);
+            HammerPowerUpPanel.SetActive(false);
+            isPowerUpActive = true;
+        }
+
+    }
+
+    private void PowerHammerReward()
+    {
+        isPowerUpActive = true;
+        HammerPowerUpPanel.SetActive(false);
+    }
+
+    private void ActivatePowerUp1AdButton()
+    {
+        Action Reward = PowerHammerReward;
+        AdsManager.instance.ShowRewardedAd(Reward);
+    }
+    /// <summary>
+    /// -----------
+    /// </summary>
     private void ActivatePowerUp2()
     {
-        isPowerUp2Active = true;
+        StrawBerryPowerUpPanel.SetActive(true);
+        //isPowerUp2Active = true;
         Debug.Log("Power-up activated!");
         //Show Rewarded
     }
+
+    private void ActivatePowerUp2PriceButton()
+    {
+
+        if (PlayerPrefs.GetInt("RareCurrency") >= 10)
+        {
+            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 10);
+            StrawBerryPowerUpPanel.SetActive(false);
+            isPowerUp2Active = true;
+        }
+
+    }
+    private void PowerStrawBerryReward()
+    {
+        isPowerUp2Active = true;
+        StrawBerryPowerUpPanel.SetActive(false);
+    }
+    private void ActivatePowerUp2AdButton()
+    {
+        Action Reward = PowerStrawBerryReward;
+        AdsManager.instance.ShowRewardedAd(Reward);
+    }
+
+    private void ActivatePowerUp3()
+    {
+        RainbowPowerUpPanel.SetActive(true);
+        //isPowerUp3Active = true;
+        Debug.Log("Power-up activated!");
+        //Show Rewarded
+    }
+
+    private void ActivatePowerUp3PriceButton()
+    {
+
+        if (PlayerPrefs.GetInt("RareCurrency") >= 15)
+        {
+            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 15);
+            RainbowPowerUpPanel.SetActive(false);
+            isPowerUp3Active = true;
+        }
+
+    }
+    private void PowerRainBowReward()
+    {
+        isPowerUp3Active = true;
+        RainbowPowerUpPanel.SetActive(false);
+    }
+    private void ActivatePowerUp3AdButton()
+    {
+        Action Reward = PowerRainBowReward;
+        AdsManager.instance.ShowRewardedAd(Reward);
+    }
+
     private void SpawnBomb()
     {
         Vector2 spawnPosition = GetSpawnPosition();
         BombManager bombToInstantiate = bombPrefab;
         currentBomb = Instantiate(bombToInstantiate, spawnPosition, Quaternion.identity);
         isBombControlling = true; // Set flag to indicate bomb is being controlled
+    }
+    private void SpawnPowerUp3()
+    {
+        Vector2 spawnPosition = GetSpawnPosition();
+        Fruit RaibowBallToInstantiate = RainbowbombPrefab;
+        RainbowcurrentBomb = Instantiate(RaibowBallToInstantiate, spawnPosition, Quaternion.identity);
+        isPowerUp3Controlling = true; // Set flag to indicate bomb is being controlled
+        Debug.Log("Huh??");
+    }
+
+    private void StopPowerup3Control()
+    {
+        isPowerUp3Controlling = false; // Reset flag
+        isPowerUp3Active = false;
     }
 
     private void StopBombControl()

@@ -17,7 +17,7 @@ public class Fruit : MonoBehaviour
     public static Action<Fruit, Fruit> onCollisionWithFruit;
 
     [Header(" Effects ")]
-    [SerializeField] private ParticleSystem mergeParticles; 
+    [SerializeField] private ParticleSystem mergeParticles;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Fruit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void MoveTo(Vector2 targetPosition)
@@ -56,7 +56,7 @@ public class Fruit : MonoBehaviour
     {
         ManageCollision(collision);
     }
-    
+
     private void ManageCollision(Collision2D collision)
     {
         hasCollided = true;
@@ -64,8 +64,15 @@ public class Fruit : MonoBehaviour
         if (!canBeMerged)
             return;
 
+
+
         if (collision.collider.TryGetComponent(out Fruit otherFruit))
         {
+            if (otherFruit.GetFruitType() == FruitType.RainBowBall)
+            {
+                onCollisionWithFruit?.Invoke(this, otherFruit);
+            }
+
             if (otherFruit.GetFruitType() != fruitType)
                 return;
 
@@ -78,7 +85,7 @@ public class Fruit : MonoBehaviour
 
     public void Merge()
     {
-        if(mergeParticles != null)
+        if (mergeParticles != null)
         {
             mergeParticles.transform.SetParent(null);
             mergeParticles.Play();

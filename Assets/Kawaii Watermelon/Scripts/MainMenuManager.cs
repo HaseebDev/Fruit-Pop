@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -32,6 +33,12 @@ public class MainMenuManager : MonoBehaviour
         LevelSlider.value = currentXp;
         CurrentProgressLevelText.text = currentXp + "/" + currentXpRequirement;
         CurrentLevelText.text = currentLevel.ToString();
+    }
+
+
+    public void TapToPlayButton()
+    {
+        SceneManager.LoadScene(2);
     }
 
 }
