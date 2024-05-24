@@ -137,7 +137,7 @@ public class FruitManager : MonoBehaviour
         }
         LoadFruitPositions();
     }
-
+    bool Activatedused = false;
     void Update()
     {
         // Update the save timer
@@ -171,7 +171,7 @@ public class FruitManager : MonoBehaviour
             ManagePlayerInput();
 
 
-        if (isPowerUpActive && Input.GetMouseButtonDown(0))
+        if (isPowerUpActive && Input.GetMouseButtonDown(0) && !Activatedused)
         {
             // Check if the power-up mode is active and player clicked
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -185,6 +185,7 @@ public class FruitManager : MonoBehaviour
                     // Destroy the clicked fruit
                     HammerPowerUpSoundEffect.Play();
                     Destroy(clickedFruit.gameObject);
+                    
                     // Deactivate the power-up instantly
 
                     if (i == 0)
@@ -193,6 +194,7 @@ public class FruitManager : MonoBehaviour
                         i++;
                     }
                     Debug.Log("Power-up deactivated!");
+                    Activatedused = true;
                 }
             }
         }
@@ -623,6 +625,7 @@ public class FruitManager : MonoBehaviour
             PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 8);
             HammerPowerUpPanel.SetActive(false);
             isPowerUpActive = true;
+            Activatedused = false;
         }
 
     }
@@ -630,6 +633,7 @@ public class FruitManager : MonoBehaviour
     private void PowerHammerReward()
     {
         isPowerUpActive = true;
+        Activatedused = false;
         HammerPowerUpPanel.SetActive(false);
     }
 
