@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
 
     public void ReviveButton()
     {
-        if (PlayerPrefs.GetInt("RareCurrency") >= 12)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 12)
         {
             // Close gameover panel
             gameoverPanel.SetActive(false);
