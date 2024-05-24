@@ -29,11 +29,14 @@ public class CameraPositionManager : MonoBehaviour
         }
     }
 
-    void SaveCameraPosition()
+    public void SaveCameraPosition()
     {
         CameraPositionData data = new CameraPositionData(mainCamera.transform.position);
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(savePath, json);
+
+        // Debug log for the JSON data being saved
+        Debug.Log("Camera position saved: " + json);
     }
 
     void LoadCameraPosition()
@@ -43,6 +46,26 @@ public class CameraPositionManager : MonoBehaviour
             string json = File.ReadAllText(savePath);
             CameraPositionData data = JsonUtility.FromJson<CameraPositionData>(json);
             mainCamera.transform.position = data.position;
+
+            // Debug log for the JSON data being loaded
+            Debug.Log("Camera position loaded: " + json);
+        }
+        else
+        {
+            Debug.Log("No saved camera position found.");
+        }
+    }
+
+    public void ClearGameData()
+    {
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+            Debug.Log("Saved camera position data cleared.");
+        }
+        else
+        {
+            Debug.Log("No saved camera position data to clear.");
         }
     }
 

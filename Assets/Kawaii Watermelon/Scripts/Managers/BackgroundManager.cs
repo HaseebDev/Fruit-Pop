@@ -19,6 +19,15 @@ public class BackgroundManager : MonoBehaviour
     private int currentActiveBackground;
     void Start()
     {
+        if (!PlayerPrefs.HasKey("CheckKey"))
+        {
+            check = 0;
+            PlayerPrefs.SetInt("CheckKey", check);
+        }
+        else
+        {
+            check = PlayerPrefs.GetInt("CheckKey");
+        }
         // PlayerPrefs.SetInt("SelectedBg", 1);
         currentActiveBackground = PlayerPrefs.GetInt("SelectedBg");
         // Initial placement of backgrounds
@@ -53,8 +62,9 @@ public class BackgroundManager : MonoBehaviour
 
         Vector2 newPosition = new Vector2(0, -(backgrounds.Length + check) * backgroundHeight);
         completedBackground.transform.position = newPosition;
-
+        Debug.Log("BackgroundMoved");
         check++;
+        PlayerPrefs.SetInt("CheckKey", check);
     }
 
     private void Update()
@@ -107,6 +117,8 @@ public class BackgroundManager : MonoBehaviour
                 {
                     // Update the position of the background GameObject
                     background.transform.position = backgroundData.position.ToVector3();
+                    // Update the index of the background GameObject
+                    backgrounds[backgroundData.index] = background;
                 }
                 else
                 {
@@ -119,9 +131,11 @@ public class BackgroundManager : MonoBehaviour
 
 
 
-    private void ClearBackgroundData()
+
+    public void ClearBackgroundData()
     {
         File.Delete(GetFilePath());
+        PlayerPrefs.DeleteKey("CheckKey");
     }
 
     private string GetFilePath()

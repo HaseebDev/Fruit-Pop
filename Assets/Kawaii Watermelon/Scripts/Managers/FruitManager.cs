@@ -482,6 +482,7 @@ public class FruitManager : MonoBehaviour
 
         if (targetFruit != null)
         {
+            Debug.Log("TargetFruitAnimationSucess");
             // Add the TargetFruitAnimation component and start the animation
             TargetFruitAnimation targetFruitAnimation = targetFruit.gameObject.AddComponent<TargetFruitAnimation>();
             targetFruitAnimation.StartTargetFruitAnimation();
@@ -806,6 +807,7 @@ public class FruitManager : MonoBehaviour
     {
         SaveFruitPositions();
         backgroundManager.SaveBackgroundData();
+        FindAnyObjectByType<CameraPositionManager>().SaveCameraPosition();
         SceneManager.LoadScene(1);
 
     }

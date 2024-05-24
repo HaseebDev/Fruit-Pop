@@ -37,15 +37,18 @@ public class AdsCurrencyManager : MonoBehaviour
         else
         {
             commonCurrency = 1000;
+
         }
         if (PlayerPrefs.HasKey(rareCurrencyKey))
         {
+            Debug.Log("LOL");
             rareCurrency = PlayerPrefs.GetFloat(rareCurrencyKey);
         }
         else
         {
             rareCurrency = 20;
         }
+        SaveCurrencies();
     }
     public void SaveCurrencies()
     {
@@ -110,7 +113,7 @@ public class AdsCurrencyManager : MonoBehaviour
             Debug.LogWarning("Insufficient rare currency!");
         }
     }
-    private double GetCurrencyAmount(CurrencyType currencyType)
+    public double GetCurrencyAmount(CurrencyType currencyType)
     {
         LoadCurrencies();
         if (currencyType == CurrencyType.Common)
