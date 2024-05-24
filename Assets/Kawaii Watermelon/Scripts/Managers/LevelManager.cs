@@ -33,8 +33,8 @@ public class LevelManager : MonoBehaviour
     private int currentLevel;
     private int currentXp;
     private int currentXpRequirement;
-    private int earnedGems;
-    private int earnedCoins;
+    private float earnedGems;
+    private float earnedCoins;
 
     private const string LevelKey = "PlayerLevel";
     private const string XpKey = "PlayerXP";
@@ -74,20 +74,31 @@ public class LevelManager : MonoBehaviour
         // Increase earned gems and coins rewards for the next level
         earnedGems = Mathf.RoundToInt(initialGemsReward * Mathf.Pow(gemsRewardMultiplier, currentLevel - 1));
         earnedCoins = Mathf.RoundToInt(initialCoinsReward * Mathf.Pow(coinsRewardMultiplier, currentLevel - 1));
-
-
-
-        // Enable level up panel and display completed level
         levelUpPanel.SetActive(true);
         levelUpText.text = (currentLevel - 1).ToString();
-        earnedGemsText.text = earnedGems.ToString();
-        earnedCoinsText.text = earnedCoins.ToString();
-        PlayerPrefs.SetInt(GemsKey, PlayerPrefs.GetInt(GemsKey) + earnedGems);
-        PlayerPrefs.SetInt(CoinsKey, PlayerPrefs.GetInt(CoinsKey) + earnedCoins);
+        earnedGemsText.text = "+" + earnedGems.ToString();
+        earnedCoinsText.text = "+" + earnedCoins.ToString();
+
+        // Add earned gems and coins to the total
+        float totalGems = PlayerPrefs.GetFloat(GemsKey) + earnedGems;
+        float totalCoins = PlayerPrefs.GetFloat(CoinsKey) + earnedCoins;
+
+        // Enable level up panel and display completed level and earned currency
+
+
+        // Update the total currency in PlayerPrefs
+        PlayerPrefs.SetFloat(GemsKey, totalGems);
+        PlayerPrefs.SetFloat(CoinsKey, totalCoins);
+
+        // Update the text for the total currency to reflect the updated total
+        GemsBarText.text = totalGems.ToString();
+        CoinsBarText.text = totalCoins.ToString();
+
         // Start animation coroutine
         StartCoroutine(ScaleUpPanel());
         UpdateUI(); // Update UI immediately after level up
     }
+
 
     private IEnumerator ScaleUpPanel()
     {
@@ -116,8 +127,8 @@ public class LevelManager : MonoBehaviour
         LosePanelXpBar.maxValue = currentXpRequirement;
         xpBar.value = currentXp;
         LosePanelXpBar.value = currentXp;
-        GemsBarText.text = PlayerPrefs.GetInt(GemsKey).ToString();
-        CoinsBarText.text = PlayerPrefs.GetInt(CoinsKey).ToString();
+        GemsBarText.text = PlayerPrefs.GetFloat(GemsKey).ToString();
+        CoinsBarText.text = PlayerPrefs.GetFloat(CoinsKey).ToString();
 
         // Display current XP progress
         CurrentLevelProgress.text = currentXp + "/" + currentXpRequirement;
@@ -130,8 +141,6 @@ public class LevelManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(LevelKey, currentLevel);
         PlayerPrefs.SetInt(XpKey, currentXp);
-        PlayerPrefs.SetInt(GemsKey, earnedGems);
-        PlayerPrefs.SetInt(CoinsKey, earnedCoins);
     }
 
     private void LoadProgress()
@@ -139,10 +148,10 @@ public class LevelManager : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt(LevelKey, 1);
         currentXp = PlayerPrefs.GetInt(XpKey, 0);
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
-        earnedGems = PlayerPrefs.GetInt(GemsKey, 0);
-        earnedCoins = PlayerPrefs.GetInt(CoinsKey, 0);
-        GemsBarText.text = PlayerPrefs.GetInt(GemsKey).ToString();
-        CoinsBarText.text = PlayerPrefs.GetInt(CoinsKey).ToString();
+        earnedGems = PlayerPrefs.GetFloat(GemsKey);
+        earnedCoins = PlayerPrefs.GetFloat(CoinsKey);
+        GemsBarText.text = PlayerPrefs.GetFloat(GemsKey).ToString();
+        CoinsBarText.text = PlayerPrefs.GetFloat(CoinsKey).ToString();
     }
 
 

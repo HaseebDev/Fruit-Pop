@@ -73,7 +73,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private GameObject RainbowPowerUpPanel;
     [SerializeField] private Button RainbowPowerUpAdButton;
     [SerializeField] private Button RainbowPowerUpCurrencyButton;
-    private float saveInterval = 15f; // Time interval for periodic saves
+    private float saveInterval = 10f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private const string targetFruitIndexKey = "TargetFruitIndex";
     private void Awake()
@@ -185,7 +185,7 @@ public class FruitManager : MonoBehaviour
                     // Destroy the clicked fruit
                     HammerPowerUpSoundEffect.Play();
                     Destroy(clickedFruit.gameObject);
-                    
+
                     // Deactivate the power-up instantly
 
                     if (i == 0)
@@ -620,9 +620,9 @@ public class FruitManager : MonoBehaviour
     private void ActivatePowerUp1PriceButton()
     {
 
-        if (PlayerPrefs.GetInt("RareCurrency") >= 8)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 8)
         {
-            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 8);
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 8);
             HammerPowerUpPanel.SetActive(false);
             isPowerUpActive = true;
             Activatedused = false;
@@ -656,9 +656,9 @@ public class FruitManager : MonoBehaviour
     private void ActivatePowerUp2PriceButton()
     {
 
-        if (PlayerPrefs.GetInt("RareCurrency") >= 10)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 10)
         {
-            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 10);
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 10);
             StrawBerryPowerUpPanel.SetActive(false);
             isPowerUp2Active = true;
         }
@@ -686,9 +686,9 @@ public class FruitManager : MonoBehaviour
     private void ActivatePowerUp3PriceButton()
     {
 
-        if (PlayerPrefs.GetInt("RareCurrency") >= 15)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 15)
         {
-            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 15);
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 15);
             RainbowPowerUpPanel.SetActive(false);
             isPowerUp3Active = true;
         }

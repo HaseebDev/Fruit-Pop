@@ -14,12 +14,12 @@ public class BackgroundManager : MonoBehaviour
     int moveCount = 0; // New counter to keep track of the number of times backgrounds are moved
 
     private string saveFileName = "background_data.json";
-    private float saveInterval = 15f; // Time interval for periodic saves
+    private float saveInterval = 10f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private int currentActiveBackground;
     void Start()
     {
-       // PlayerPrefs.SetInt("SelectedBg", 1);
+        // PlayerPrefs.SetInt("SelectedBg", 1);
         currentActiveBackground = PlayerPrefs.GetInt("SelectedBg");
         // Initial placement of backgrounds
         for (int i = 0; i < backgrounds.Length; i++)

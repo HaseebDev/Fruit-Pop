@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
         {
             // Close gameover panel
             gameoverPanel.SetActive(false);
-            PlayerPrefs.SetInt("RareCurrency", PlayerPrefs.GetInt("RareCurrency") - 12);
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 12);
             FindAnyObjectByType<LevelManager>().UpdateUI();
             // Destroy fruits above or touching the deadline
             Fruit[] fruits = FindObjectsOfType<Fruit>();
