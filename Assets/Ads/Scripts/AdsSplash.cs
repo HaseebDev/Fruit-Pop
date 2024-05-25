@@ -33,7 +33,7 @@ public class AdsSplash : MonoBehaviour
     }
     private void LoadingComplete()
     {
-        AdsManager.instance.ShowNonRewardedAd();
+        AdsManager.instance.ShowInterstitialAd();
         Debug.Log("Loading Complete!");
         Invoke(nameof(LoadNextScene), 1);
     }
