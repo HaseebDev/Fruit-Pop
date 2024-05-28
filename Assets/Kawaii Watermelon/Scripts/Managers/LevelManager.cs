@@ -140,6 +140,7 @@ public class LevelManager : MonoBehaviour
 
     private void CloseLevelUpPanel()
     {
+        AdsManager.instance.ShowInterstitialAd();
         levelUpPanel.SetActive(false);
         //Play ButtonSound
     }

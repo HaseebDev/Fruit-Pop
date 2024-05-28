@@ -209,16 +209,17 @@ public class FruitManager : MonoBehaviour
 
     private void ManagePlayerInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        Touch touch = Input.GetTouch(0);
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             MouseDownCallback();
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
         {
             if (isControlling || isBombControlling || isPowerUp3Controlling)
                 MouseDragCallback();
             else
                 MouseDownCallback();
         }
-        else if (Input.GetMouseButtonUp(0) && isControlling || isBombControlling || isPowerUp3Controlling)
+        else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId) && isControlling || isBombControlling || isPowerUp3Controlling)
             MouseUpCallback();
     }
 
@@ -249,6 +250,7 @@ public class FruitManager : MonoBehaviour
             }
         }
     }
+
 
 
 
@@ -805,6 +807,7 @@ public class FruitManager : MonoBehaviour
 
     public void BackButton()
     {
+        AdsManager.instance.ShowInterstitialAd();
         SaveFruitPositions();
         backgroundManager.SaveBackgroundData();
         FindAnyObjectByType<CameraPositionManager>().SaveCameraPosition();
