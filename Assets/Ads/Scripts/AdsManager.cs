@@ -17,7 +17,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     string ANDROID_REWARDED_PLACEMENT = "Rewarded_Android";
 
     [Header("IOS Ids")]
-    string IOS_GAME_ID = "5615721";
+    string IOS_GAME_ID = "5622098";
     string IOS_INTERSTITIAL_PLACEMENT = "Interstitial_iOS";
     string IOS_REWARDED_PLACEMENT = "Rewarded_iOS";
 
@@ -35,8 +35,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     [Header("IOS Ids")]
     private string _iosBannerAdUnitId = "ca-app-pub-5824735341440098/3214723568";
-    private string _iosInterAdUnitId = "ca-app-pub-5824735341440098/8580754407";
-    private string _iosRewardedAdUnitId = "ca-app-pub-5824735341440098/9646940984";
+    private string _iosInterAdUnitId = "ca-app-pub-5824735341440098/1839017974";
+    private string _iosRewardedAdUnitId = "ca-app-pub-5824735341440098/3176150370";
 
     private string _bannerAdUnitId = "ca-app-pub-5824735341440098/3214723568";
     private string _interAdUnitId = "ca-app-pub-5824735341440098/8580754407";
