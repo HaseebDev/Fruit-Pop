@@ -16525,6 +16525,7 @@ MonoBehaviour:
   fruitsYSpawnPos: 3
   fruitsYSpawnPosT: {fileID: 1744917476}
   spawnDelay: 0.5
+  FruitBucket: {fileID: 4665540005507756659, guid: 298f632715a191b46a1ca7a94efaad5d, type: 3}
   enableGizmos: 0
   levelManager: {fileID: 124936633}
   fallSpeed: 5

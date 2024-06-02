@@ -10,6 +10,8 @@ using static SaveLoadManager;
 
 public class FruitManager : MonoBehaviour
 {
+    public static FruitManager Instance;
+
     [Header(" Elements ")]
     [SerializeField] private Fruit[] fruitPrefabs;
     [SerializeField] private BombManager bombPrefab;
@@ -26,6 +28,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private float fruitsYSpawnPos;
     [SerializeField] private Transform fruitsYSpawnPosT;
     [SerializeField] private float spawnDelay;
+    [SerializeField] private GameObject FruitBucket;
     private bool canControl;
     private bool isControlling;
 
@@ -78,6 +81,7 @@ public class FruitManager : MonoBehaviour
     private const string targetFruitIndexKey = "TargetFruitIndex";
     private void Awake()
     {
+        Instance = this;
         MergeManager.onMergeProcessed += MergeProcessedCallback;
     }
 
@@ -88,6 +92,7 @@ public class FruitManager : MonoBehaviour
 
     void Start()
     {
+
         if (!PlayerPrefs.HasKey(targetFruitIndexKey))
             PlayerPrefs.SetInt(targetFruitIndexKey, 5);
         targetFruitIndex = PlayerPrefs.GetInt(targetFruitIndexKey);
@@ -136,6 +141,7 @@ public class FruitManager : MonoBehaviour
             RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
         }
         LoadFruitPositions();
+        // SpawnBucket();
     }
     bool Activatedused = false;
     void Update()
@@ -335,6 +341,20 @@ public class FruitManager : MonoBehaviour
 
     }
 
+
+    public void SpawnBucketFruit()
+    {
+        FruitSpawnAudioSource.Play();
+
+
+        Fruit fruitToInstantiate = spawnableFruits[Random.Range(0, spawnableFruits.Length)];
+        Fruit bucketFruit = Instantiate(fruitToInstantiate, BucketAnimation.SpawnLocation.position, Quaternion.identity, fruitsParent);
+        bucketFruit.EnablePhysics();
+
+    }
+
+
+
     private void SetNextFruitIndex()
     {
         float commonChance = 0.6f; // Chance for the common fruits (index 0 and index 1)
@@ -463,6 +483,13 @@ public class FruitManager : MonoBehaviour
         fruitInstance.EnablePhysics();
     }
 
+    private void SpawnBucket()
+    {
+        Vector3 SapwnPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + 2f, 0f);
+        Instantiate(FruitBucket, SapwnPosition, Quaternion.identity);
+    }
+
+
     private void TargetAchieved()
     {
 
@@ -564,52 +591,6 @@ public class FruitManager : MonoBehaviour
     }
 
 
-    public void MakeFruitsFall(Transform gatePosition, float collectDuration, float fallDuration)
-    {
-        StartCoroutine(CollectAndFallFruitsCoroutine(gatePosition, collectDuration, fallDuration));
-    }
-
-    private IEnumerator CollectAndFallFruitsCoroutine(Transform gatePosition, float collectDuration, float fallDuration)
-    {
-        // Get the initial position of the fruits parent
-        Vector3 initialFruitsParentPosition = fruitsParent.position;
-
-        // Calculate the final position for collecting the fruits in the middle
-        Vector3 collectPosition = (gatePosition.position + initialFruitsParentPosition) / 2;
-
-        // Smoothly move the fruits parent to the collect position
-        float elapsedTime = 0f;
-        while (elapsedTime < collectDuration)
-        {
-            fruitsParent.position = Vector3.Lerp(initialFruitsParentPosition, collectPosition, elapsedTime / collectDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure the fruits parent reaches the collect position
-        fruitsParent.position = collectPosition;
-
-        // Wait for a short duration before making the fruits fall
-        yield return new WaitForSeconds(0.5f);
-
-        // Calculate the direction for fruit falling
-        Vector3 fallDirection = (gatePosition.position - collectPosition).normalized;
-
-        // Fall all fruits towards the gate position
-        foreach (Transform fruit in fruitsParent)
-        {
-            Rigidbody2D rb = fruit.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = fallDirection * fallSpeed;
-            }
-        }
-
-        // Wait for the specified fall duration before completing the transition
-        yield return new WaitForSeconds(fallDuration);
-
-        // Trigger the completion of the transition or any other desired action here
-    }
     // Method to activate the power-up1 mode
     private void ActivatePowerUp1()
     {
