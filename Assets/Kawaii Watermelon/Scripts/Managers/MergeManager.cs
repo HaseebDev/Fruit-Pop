@@ -37,8 +37,9 @@ public class MergeManager : MonoBehaviour
     {
         if (lastSender != null)
             return;
-        if (FindObjectOfType<FruitManager>().TargetFruitAniamtion == true)
+        if (FruitManager.Instance.TargetFruitAniamtion)
             return;
+
 
 
         lastSender = sender;

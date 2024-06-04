@@ -14,15 +14,15 @@ public class SettingManager : MonoBehaviour
 
     private const string VibrationKey = "VibrationEnabled";
     private bool isVibrationEnabled;
-
     // Start is called before the first frame update
     void Start()
     {
+
         audioManager = SoundManager.instance;
 
         // Load the saved volume values or use default values
-        musicVolume.value = PlayerPrefs.GetFloat(audioManager.MusicVolumeKey, 1f);
-        soundVolume.value = PlayerPrefs.GetFloat(audioManager.SoundVolumeKey, 1f);
+        musicVolume.value = PlayerPrefs.GetFloat(audioManager.MusicVolumeKey);
+        soundVolume.value = PlayerPrefs.GetFloat(audioManager.SoundVolumeKey);
         musicVolume.onValueChanged.AddListener((volume) => audioManager.UpdateMusicVolume(volume));
         soundVolume.onValueChanged.AddListener((volume) => audioManager.UpdateSoundVolume(volume));
 
@@ -32,7 +32,7 @@ public class SettingManager : MonoBehaviour
 
         vibrationButton.onClick.AddListener(ToggleVibration);
 
- 
+
     }
 
     private void OnDisable()

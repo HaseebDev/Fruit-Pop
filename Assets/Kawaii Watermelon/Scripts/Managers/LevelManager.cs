@@ -78,7 +78,7 @@ public class LevelManager : MonoBehaviour
         // Add earned gems and coins to the total
         AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Rare, (int)earnedGems);
         AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Common, (int)earnedCoins);
-
+        FruitManager.Instance.
         // Start animation coroutine
         StartCoroutine(ScaleUpPanel());
         UpdateUI(); // Update UI immediately after level up

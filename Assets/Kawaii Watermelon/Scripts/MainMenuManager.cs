@@ -46,15 +46,33 @@ public class MainMenuManager : MonoBehaviour
         CurrentProgressLevelText.text = currentXp + "/" + currentXpRequirement;
         CurrentLevelText.text = currentLevel.ToString();
         //--------------
+        InitialSetupMusicAudio();
+        SoundManager.OnMusicVolumeUpdated += UpdateMusic;
+    }
+
+    private void UpdateMusic(float volume)
+    {
+        // Your logic to update music based on the volume
+        Debug.Log("Music Volume is " + volume);
+
+        float mappedMusicVolume = volume * 0.25f; // Map the value to a maximum of 0.25
+        musicSource.volume = mappedMusicVolume;
+        Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
+    }
+    private void InitialSetupMusicAudio()
+    {
         float MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
         Debug.Log("Music Volume is " + MusicVolume);
 
         float mappedMusicVolume = MusicVolume * 0.25f; // Map the value to a maximum of 0.25
         musicSource.volume = mappedMusicVolume;
         Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
-
     }
-
+    private void OnDestroy()
+    {
+        // Unsubscribe from the event when the object is destroyed
+        SoundManager.OnMusicVolumeUpdated -= UpdateMusic;
+    }
     public void UpdateCurrencyUi()
     {
         AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, commonCurrencyText);

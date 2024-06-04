@@ -60,10 +60,12 @@ public class FruitManager : MonoBehaviour
     private Fruit RainbowcurrentBomb; // Variable to track the current bomb being controlled
     private bool isBombControlling; // Flag to indicate if a bomb is currently being controlled
     private bool isPowerUp3Controlling; // Flag to indicate if a bomb is currently being controlled
+    public bool isBucketActive; // Flag to indicate if a Bucket is currently active
     private bool bombSpawnedThisMouseDown = false; // Add a new flag to track bomb spawning
 
     public bool TargetFruitAniamtion = false;
     [SerializeField] private SaveLoadManager saveLoadManager;
+    [SerializeField] private BucketManager bucketManager;
     [SerializeField] private AudioSource FruitSpawnAudioSource;
     [SerializeField] private AudioSource CompleteCycleBlast;
     [SerializeField] private AudioSource HammerPowerUpSoundEffect;
@@ -141,7 +143,6 @@ public class FruitManager : MonoBehaviour
             RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
         }
         LoadFruitPositions();
-        // SpawnBucket();
     }
     bool Activatedused = false;
     void Update()
@@ -156,11 +157,13 @@ public class FruitManager : MonoBehaviour
             saveTimer = 0f; // Reset the timer
             Debug.Log("Game-Saved");
         }
-
+        Debug.Log("isBucketActive " + isBucketActive);
+        Debug.Log("TargetFruitAniamtion " + TargetFruitAniamtion);
+        Debug.Log("GameManager.instance.IsGameState() " + GameManager.instance.IsGameState());
 
 
         // Check if the game state is active and if TargetFruitAnimation is false
-        if (!GameManager.instance.IsGameState() || TargetFruitAniamtion)
+        if (!GameManager.instance.IsGameState() || TargetFruitAniamtion || isBucketActive)
             return;
 
         // Check if there are any fruits spawned
@@ -168,9 +171,9 @@ public class FruitManager : MonoBehaviour
 
         if (powerUpButton != null && powerUp2Button != null)
         {
-            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
-            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
-            powerUp3Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion;
+            powerUpButton.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion && !isBucketActive;
+            powerUp2Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion && !isBucketActive;
+            powerUp3Button.interactable = fruitsSpawned && !isPowerUpActive && !isPowerUp2Active && !isPowerUp3Active && !TargetFruitAniamtion && !isBucketActive;
         }
 
         if (canControl)
@@ -215,19 +218,36 @@ public class FruitManager : MonoBehaviour
 
     private void ManagePlayerInput()
     {
-        Touch touch = Input.GetTouch(0);
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             MouseDownCallback();
-        else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             if (isControlling || isBombControlling || isPowerUp3Controlling)
                 MouseDragCallback();
             else
                 MouseDownCallback();
         }
-        else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId) && isControlling || isBombControlling || isPowerUp3Controlling)
+        else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject() && (isControlling || isBombControlling || isPowerUp3Controlling))
             MouseUpCallback();
+
+#elif UNITY_ANDROID || UNITY_IOS
+    Touch touch = Input.GetTouch(0);
+    if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        MouseDownCallback();
+    else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+    {
+        if (isControlling || isBombControlling || isPowerUp3Controlling)
+            MouseDragCallback();
+        else
+            MouseDownCallback();
     }
+    else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject(touch.fingerId) && (isControlling || isBombControlling || isPowerUp3Controlling))
+        MouseUpCallback();
+#endif
+    }
+
+
 
     private void MouseDownCallback()
     {
@@ -469,7 +489,8 @@ public class FruitManager : MonoBehaviour
 
         int xp = CalculateXpForMerge(fruitType);
         levelManager.AddXp(xp);
-
+        float Addition = Random.Range(0.001f, 0.01f);
+        bucketManager.AddToFiller(Addition);
         // Check if target fruit is achieved
         if ((int)fruitType == targetFruitIndex)
         {
@@ -483,8 +504,9 @@ public class FruitManager : MonoBehaviour
         fruitInstance.EnablePhysics();
     }
 
-    private void SpawnBucket()
+    public void SpawnBucket()
     {
+        isBucketActive = true;
         Vector3 SapwnPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + 2f, 0f);
         Instantiate(FruitBucket, SapwnPosition, Quaternion.identity);
     }

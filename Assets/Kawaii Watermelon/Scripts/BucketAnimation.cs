@@ -85,8 +85,11 @@ public class BucketAnimation : MonoBehaviour
 
         // Destroy bucket after delay
         yield return new WaitForSeconds(destroyDelay);
-        Destroy(gameObject);
+
 
         isAnimating = false;
+        FruitManager.Instance.isBucketActive = false;
+        Debug.Log("FruitManager.Instance.isBucketActive " + FruitManager.Instance.isBucketActive);
+        Destroy(gameObject);
     }
 }
