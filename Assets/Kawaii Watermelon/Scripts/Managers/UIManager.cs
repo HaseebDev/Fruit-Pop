@@ -87,8 +87,8 @@ public class UIManager : MonoBehaviour
     public void NextButtonCallback()
     {
         SaveLoadManager.Instance.ClearGameData();
-        FindObjectOfType<BackgroundManager>().ClearBackgroundData();
-        FindObjectOfType<CameraPositionManager>().ClearGameData();
+        BackgroundManager.Instance.ClearBackgroundData();
+        CameraPositionManager.Instance.ClearGameData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
@@ -128,5 +128,22 @@ public class UIManager : MonoBehaviour
     public void CloseSettingsPanel()
     {
         settingsPanel.SetActive(false);
+    }
+
+    private void OnApplicationQuit()
+    {
+
+        if (gameoverPanel.activeInHierarchy == true)
+        {
+            SaveLoadManager.Instance.ClearGameData();
+            BackgroundManager.Instance.ClearBackgroundData();
+            CameraPositionManager.Instance.ClearGameData();
+        }
+        else
+        {
+            FruitManager.Instance.SaveFruitPositions();
+            CameraPositionManager.Instance.SaveCameraPosition();
+            BackgroundManager.Instance.SaveBackgroundData();
+        }
     }
 }

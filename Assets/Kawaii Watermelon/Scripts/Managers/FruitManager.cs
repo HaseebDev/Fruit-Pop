@@ -22,7 +22,7 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private Transform fruitSpawnObject;
     [SerializeField] private BackgroundManager backgroundManager; // Added BackgroundManager reference
     [SerializeField] private ParticleSystem explosionEffect; // Explosion effect for the end of target cycle
-    private Fruit currentFruit;
+    public Fruit currentFruit;
     [SerializeField] private Image targetFruitImage;
     [Header(" Settings ")]
     [SerializeField] private float fruitsYSpawnPos;
@@ -81,6 +81,10 @@ public class FruitManager : MonoBehaviour
     private float saveInterval = 10f; // Time interval for periodic saves
     private float saveTimer = 0f;
     private const string targetFruitIndexKey = "TargetFruitIndex";
+
+    public static bool TargetAnimationInEffect;
+
+
     private void Awake()
     {
         Instance = this;
@@ -143,23 +147,30 @@ public class FruitManager : MonoBehaviour
             RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
         }
         LoadFruitPositions();
+        Invoke(nameof(PreiodicSave), saveInterval);
     }
     bool Activatedused = false;
+    void PreiodicSave()
+    {
+
+        InvokeRepeating(nameof(SaveFruitPositions), 0f, saveInterval);
+
+    }
     void Update()
     {
         // Update the save timer
-        saveTimer += Time.deltaTime;
+        //saveTimer += Time.deltaTime;
 
-        // Check if it's time to save
-        if (saveTimer >= saveInterval)
-        {
-            SaveFruitPositions();
-            saveTimer = 0f; // Reset the timer
-            Debug.Log("Game-Saved");
-        }
-        Debug.Log("isBucketActive " + isBucketActive);
-        Debug.Log("TargetFruitAniamtion " + TargetFruitAniamtion);
-        Debug.Log("GameManager.instance.IsGameState() " + GameManager.instance.IsGameState());
+        //// Check if it's time to save
+        //if (saveTimer >= saveInterval)
+        //{
+        //    SaveFruitPositions();
+        //    saveTimer = 0f; // Reset the timer
+        //    Debug.Log("Game-Saved");
+        //}
+        //Debug.Log("isBucketActive " + isBucketActive);
+        //Debug.Log("TargetFruitAniamtion " + TargetFruitAniamtion);
+        //Debug.Log("GameManager.instance.IsGameState() " + GameManager.instance.IsGameState());
 
 
         // Check if the game state is active and if TargetFruitAnimation is false
@@ -251,7 +262,7 @@ public class FruitManager : MonoBehaviour
 
     private void MouseDownCallback()
     {
-        if (!isPowerUpActive && !EventSystem.current.IsPointerOverGameObject())
+        if (!isPowerUpActive && !EventSystem.current.IsPointerOverGameObject() && !LevelManager.LevelUpScreenIsScalingUp)
         {
             if (!isPowerUp2Active && !isBombControlling && !isPowerUp3Active && !isPowerUp3Controlling) // Check if bomb power-up is not active and no bomb is currently being controlled
             {
@@ -537,7 +548,7 @@ public class FruitManager : MonoBehaviour
             // Add the TargetFruitAnimation component and start the animation
             TargetFruitAnimation targetFruitAnimation = targetFruit.gameObject.AddComponent<TargetFruitAnimation>();
             targetFruitAnimation.StartTargetFruitAnimation();
-            backgroundManager.MoveToNextLevel();
+            //backgroundManager.MoveToNextLevel();
             //Disable the Backgrunds Gates Collider. 
             //Make all other Fruit Follow //MeanWhile Also do backgroundManager.MoveToNextLevel(); It should be done above with almost the matching time delay.
         }
@@ -557,7 +568,11 @@ public class FruitManager : MonoBehaviour
 
     private IEnumerator CompleteCycle()
     {
-        yield return new WaitForSeconds(4.5f);
+        while (TargetAnimationInEffect)
+        {
+            yield return null;
+        }
+        //yield return new WaitForSeconds(4.5f);
         // Play explosion effect
         explosionEffect.Play();
         CompleteCycleBlast.Play();
@@ -740,8 +755,13 @@ public class FruitManager : MonoBehaviour
 
 
 
-    private void SaveFruitPositions()
+    public void SaveFruitPositions()
     {
+        TargetFruitAnimation targetAnimations = FindObjectOfType<TargetFruitAnimation>();
+
+        if (targetAnimations != null && targetAnimations.isAnimating)
+            return;
+
         List<FruitData> fruitsData = new List<FruitData>();
         foreach (Transform fruitTransform in fruitsParent)
         {
@@ -808,12 +828,23 @@ public class FruitManager : MonoBehaviour
 #endif
 
 
+    //public void EnableAllFruitsPhysics()
+    //{
+    //    foreach (Transform fruitObject in fruitsParent)
+    //    {
+    //        Fruit fruitComponent = fruitObject.GetComponent<Fruit>();
+    //        if (fruitComponent != null)
+    //        {
+    //            fruitComponent.EnablePhysics();
+    //        }
+    //    }
+    //}
     public void BackButton()
     {
-        AdsManager.instance.ShowInterstitialAd();
         SaveFruitPositions();
         backgroundManager.SaveBackgroundData();
-        FindAnyObjectByType<CameraPositionManager>().SaveCameraPosition();
+        CameraPositionManager.Instance.SaveCameraPosition();
+        AdsManager.instance.ShowInterstitialAd();
         SceneManager.LoadScene(1);
 
     }

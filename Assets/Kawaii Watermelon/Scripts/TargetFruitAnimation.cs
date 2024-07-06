@@ -7,7 +7,7 @@ public class TargetFruitAnimation : MonoBehaviour
     private Transform fruitTransform;
     private Rigidbody2D fruitRigidbody;
     private Vector3 originalPosition;
-    private bool isAnimating = false;
+    public bool isAnimating = false;
 
     [SerializeField] private float liftSpeed = 2.0f;
     [SerializeField] private float shakeAmount = 0.01f;
@@ -23,9 +23,8 @@ public class TargetFruitAnimation : MonoBehaviour
         fruitTransform = transform;
         fruitRigidbody = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
-        FindAnyObjectByType<FruitManager>().TargetFruitAniamtion = true;
-        Debug.Log("TargetFruitAnimation " + FindAnyObjectByType<FruitManager>().TargetFruitAniamtion);
-
+        FruitManager.Instance.TargetFruitAniamtion = true;
+        Debug.Log("TargetFruitAnimation " + FruitManager.Instance.TargetFruitAniamtion);
     }
 
     public void StartTargetFruitAnimation()
@@ -42,7 +41,7 @@ public class TargetFruitAnimation : MonoBehaviour
     private IEnumerator AnimateTargetFruit()
     {
         isAnimating = true;
-
+        FruitManager.TargetAnimationInEffect = true;
         Vector3 centerScreenPosition = new Vector3(0f, initialCameraPosition.y, originalPosition.z);
 
         fruitRigidbody.isKinematic = true;
@@ -76,13 +75,12 @@ public class TargetFruitAnimation : MonoBehaviour
         isAnimating = false;
         fruitRigidbody.isKinematic = false;
 
-        Destroy(this, 4f);
+        //Destroy(this, 4f);
     }
-
 
     private void OnDestroy()
     {
-        FindAnyObjectByType<FruitManager>().TargetFruitAniamtion = false;
+        FruitManager.Instance.TargetFruitAniamtion = false;
         Debug.Log("TargetDestroyed");
     }
 
@@ -94,20 +92,25 @@ public class TargetFruitAnimation : MonoBehaviour
             // Get the current camera position
             Vector3 currentCameraPosition = mainCamera.transform.position;
 
-            // Define the target Y position (-10.225)
-
-
-            // Ensure the camera doesn't move more than -10.225
+            // Ensure the camera doesn't move more than the target position
             if (currentCameraPosition.y > targetYPosition)
             {
-                // Smoothly interpolate the camera's Y position towards -10.27
+                // Smoothly interpolate the camera's Y position towards the target position
                 float newYPosition = Mathf.Lerp(currentCameraPosition.y, targetYPosition, Time.deltaTime * smoothness);
 
                 // Update the camera's position with the new Y value
                 mainCamera.transform.position = new Vector3(currentCameraPosition.x, newYPosition, currentCameraPosition.z);
+
+                // Check if lerping is complete
+                if (Mathf.Abs(newYPosition - targetYPosition) < 0.01f)
+                {
+                    // Directly set the camera position to ensure it reaches the target position
+                    BackgroundManager.Instance.MoveToNextLevel();
+                    mainCamera.transform.position = new Vector3(currentCameraPosition.x, targetYPosition, currentCameraPosition.z);
+                    FruitManager.TargetAnimationInEffect = false;
+                    Destroy(this);
+                }
             }
         }
     }
-
-
 }

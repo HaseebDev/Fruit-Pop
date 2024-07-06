@@ -3,6 +3,7 @@ using System.IO;
 
 public class CameraPositionManager : MonoBehaviour
 {
+    public static CameraPositionManager Instance;
     private Camera mainCamera;
     private string savePath;
     private float saveInterval = 10f;
@@ -10,27 +11,42 @@ public class CameraPositionManager : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
         mainCamera = Camera.main;
         savePath = Application.persistentDataPath + "/camera_position.json";
 
         // Load the camera position when the scene starts
         LoadCameraPosition();
+
+        Invoke(nameof(PreiodicSave), saveInterval);
     }
 
-    void Update()
+    void PreiodicSave()
     {
-        elapsedTime += Time.deltaTime;
 
-        // Check if the elapsed time has reached the save interval
-        if (elapsedTime >= saveInterval)
-        {
-            SaveCameraPosition();
-            elapsedTime = 0f; // Reset the timer
-        }
+        InvokeRepeating(nameof(SaveCameraPosition), 0f, saveInterval);
+
     }
+
+    //void Update()
+    //{
+    //    elapsedTime += Time.deltaTime;
+
+    //    // Check if the elapsed time has reached the save interval
+    //    if (elapsedTime >= saveInterval)
+    //    {
+    //        SaveCameraPosition();
+    //        elapsedTime = 0f; // Reset the timer
+    //    }
+    //}
 
     public void SaveCameraPosition()
     {
+        TargetFruitAnimation targetAnimations = FindObjectOfType<TargetFruitAnimation>();
+
+        if (targetAnimations != null && targetAnimations.isAnimating)
+            return;
+
         CameraPositionData data = new CameraPositionData(mainCamera.transform.position);
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(savePath, json);

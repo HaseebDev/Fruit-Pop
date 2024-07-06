@@ -6,6 +6,7 @@ using System.Collections;
 
 public class BackgroundManager : MonoBehaviour
 {
+    public static BackgroundManager Instance;
     public GameObject[] backgrounds;  // Array to hold your backgrounds
     public Sprite[] backgroundSprites;  // Array to hold your backgrounds
     private float backgroundHeight = 10.2f;  // Height difference between backgrounds
@@ -19,6 +20,7 @@ public class BackgroundManager : MonoBehaviour
     private int currentActiveBackground;
     void Start()
     {
+        Instance = this;
         if (!PlayerPrefs.HasKey("CheckKey"))
         {
             check = 0;
@@ -37,19 +39,18 @@ public class BackgroundManager : MonoBehaviour
             backgrounds[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backgroundSprites[currentActiveBackground];
         }
         LoadBackgroundData();
+        Invoke(nameof(PreiodicSave), saveInterval);
+
     }
 
     public void MoveToNextLevel()
     {
-        StartCoroutine(MoveBackgroundToEnd(BackGroundNumber));
+        MoveBackgroundToEnd(BackGroundNumber);
     }
 
-    private IEnumerator MoveBackgroundToEnd(int completedIndex)
+    private void MoveBackgroundToEnd(int completedIndex)
     {
-        if (completedIndex < 0 || completedIndex >= backgrounds.Length) yield break;
-
-        // Wait for 1 second (adjust as needed)
-        yield return new WaitForSeconds(6f);
+        if (completedIndex < 0 || completedIndex >= backgrounds.Length) return;
 
         GameObject completedBackground = backgrounds[completedIndex];
 
@@ -66,22 +67,34 @@ public class BackgroundManager : MonoBehaviour
         check++;
         PlayerPrefs.SetInt("CheckKey", check);
     }
-
-    private void Update()
+    void PreiodicSave()
     {
-        // Update the save timer
-        saveTimer += Time.deltaTime;
 
-        // Check if it's time to save
-        if (saveTimer >= saveInterval)
-        {
-            SaveBackgroundData();
-            saveTimer = 0f; // Reset the timer
-        }
+
+        InvokeRepeating(nameof(SaveBackgroundData), 0f, saveInterval);
+
     }
+    //private void Update()
+    //{
+    //    // Update the save timer
+    //    saveTimer += Time.deltaTime;
+
+    //    // Check if it's time to save
+    //    if (saveTimer >= saveInterval)
+    //    {
+    //        SaveBackgroundData();
+    //        saveTimer = 0f; // Reset the timer
+    //    }
+    //}
 
     public void SaveBackgroundData()
     {
+
+        TargetFruitAnimation targetAnimations = FindObjectOfType<TargetFruitAnimation>();
+
+        if (targetAnimations != null && targetAnimations.isAnimating)
+            return;
+
         List<SerializableBackgroundData> backgroundsData = new List<SerializableBackgroundData>();
 
         for (int i = 0; i < backgrounds.Length; i++)

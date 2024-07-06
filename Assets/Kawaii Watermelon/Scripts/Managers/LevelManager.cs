@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
 
     private const string LevelKey = "PlayerLevel";
     private const string XpKey = "PlayerXP";
-
+    public static bool LevelUpScreenIsScalingUp;
     private void Start()
     {
         LoadProgress();
@@ -71,6 +71,7 @@ public class LevelManager : MonoBehaviour
         earnedGems = Mathf.RoundToInt(initialGemsReward * Mathf.Pow(gemsRewardMultiplier, currentLevel - 1));
         earnedCoins = Mathf.RoundToInt(initialCoinsReward * Mathf.Pow(coinsRewardMultiplier, currentLevel - 1));
         levelUpPanel.SetActive(true);
+        LevelUpScreenIsScalingUp = true;
         levelUpText.text = (currentLevel - 1).ToString();
         earnedGemsText.text = "+" + earnedGems.ToString();
         earnedCoinsText.text = "+" + earnedCoins.ToString();
@@ -140,8 +141,10 @@ public class LevelManager : MonoBehaviour
 
     private void CloseLevelUpPanel()
     {
+        //FruitManager.Instance.EnableAllFruitsPhysics();
         AdsManager.instance.ShowInterstitialAd();
         levelUpPanel.SetActive(false);
+        LevelUpScreenIsScalingUp = false;
         //Play ButtonSound
     }
 }
