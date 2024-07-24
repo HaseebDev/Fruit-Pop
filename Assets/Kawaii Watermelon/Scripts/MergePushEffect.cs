@@ -41,6 +41,7 @@ public class MergePushEffect : MonoBehaviour
                 fruit.GetComponent<Rigidbody2D>().AddForce(force);
             }
         }
+        Debug.Log(fruitType + " fruitType ");
     }
     
     private void PushMagnitudeChangedCallback(float newPushMagnitude)

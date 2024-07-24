@@ -112,8 +112,11 @@ public class LevelManager : MonoBehaviour
         LosePanelXpBar.maxValue = currentXpRequirement;
         xpBar.value = currentXp;
         LosePanelXpBar.value = currentXp;
-        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Rare, GemsBarText);
-        AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, CoinsBarText);
+        if(AdsCurrencyManager.instance != null)
+        {
+            AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Rare, GemsBarText);
+            AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, CoinsBarText);
+        }
 
         // Display current XP progress
         CurrentLevelProgress.text = currentXp + "/" + currentXpRequirement;

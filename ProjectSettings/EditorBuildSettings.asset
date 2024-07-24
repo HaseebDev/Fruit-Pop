@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Kawaii Watermelon/Scenes/GameplayScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Kawaii Watermelon/Scenes/levels.unity
+    guid: 19798d8a2a27d6c4380af4d11ede2f56
+  - enabled: 1
     path: Assets/Kawaii Watermelon/Scenes/GamePlay2.unity
     guid: 561fcc868f7323b40af78db4a52477d6
   m_configObjects: {}

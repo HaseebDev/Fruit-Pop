@@ -447,9 +447,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d104d94fec22ff34eae331971bdddfd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonCurrencyText: {fileID: 1819603487}
+  rareCurrencyText: {fileID: 1073220936}
+  musicSource: {fileID: 1439926533}
   LevelPrefab: {fileID: 4250326165849412867, guid: 3adf79b906049fd418edc4acf2baa3cf, type: 3}
-  LevelCount: 10
+  LevelCount: 30
   Content: {fileID: 474782900}
+  levelEdge: 03000000060000000a0000000f0000001300000014000000180000001b000000
 --- !u!1 &277242332
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,8 +2695,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModeManager, Assembly-CSharp
+      - m_Target: {fileID: 84144986}
+        m_TargetAssemblyTypeName: LevelSelection, Assembly-CSharp
         m_MethodName: BackBtn
         m_Mode: 1
         m_Arguments:
@@ -3665,7 +3669,7 @@ GameObject:
   - component: {fileID: 1439926534}
   - component: {fileID: 1439926533}
   m_Layer: 0
-  m_Name: MainMenuMusic
+  m_Name: LevelMenuMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
