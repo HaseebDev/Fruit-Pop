@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MergePushEffect : MonoBehaviour
 {
@@ -41,9 +42,16 @@ public class MergePushEffect : MonoBehaviour
                 fruit.GetComponent<Rigidbody2D>().AddForce(force);
             }
         }
-        Debug.Log(fruitType + " fruitType ");
+        GamePlay2(fruitType);
     }
-    
+    private void GamePlay2(FruitType fruitType)
+    {
+        if(SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
+            gamePlay2.CheckCompleteTask(fruitType.ToString());
+        }
+    }
     private void PushMagnitudeChangedCallback(float newPushMagnitude)
     {
         pushMagnitude = Mathf.Lerp(minMaxPushMagnitude.x, minMaxPushMagnitude.y, newPushMagnitude);

@@ -451,9 +451,9 @@ MonoBehaviour:
   rareCurrencyText: {fileID: 1073220936}
   musicSource: {fileID: 1439926533}
   LevelPrefab: {fileID: 4250326165849412867, guid: 3adf79b906049fd418edc4acf2baa3cf, type: 3}
-  LevelCount: 30
+  LevelCount: 21
   Content: {fileID: 474782900}
-  levelEdge: 03000000060000000a0000000f0000001300000014000000180000001b000000
+  levelEdge: 03000000060000000e000000180000001b000000
 --- !u!1 &277242332
 GameObject:
   m_ObjectHideFlags: 0

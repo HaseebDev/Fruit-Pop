@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BucketAnimation : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class BucketAnimation : MonoBehaviour
 
     void StartAnimation()
     {
-        if (!isAnimating)
+        if (!isAnimating && SceneManager.GetActiveScene().buildIndex != 5)
         {
             isAnimating = true;
             StartCoroutine(AnimateBucket());

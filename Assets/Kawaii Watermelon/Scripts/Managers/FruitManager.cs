@@ -503,7 +503,7 @@ public class FruitManager : MonoBehaviour
         float Addition = Random.Range(0.001f, 0.01f);
         bucketManager.AddToFiller(Addition);
         // Check if target fruit is achieved
-        if ((int)fruitType == targetFruitIndex)
+        if ((int)fruitType == targetFruitIndex && SceneManager.GetActiveScene().buildIndex != 5)
         {
             TargetAchieved();
         }

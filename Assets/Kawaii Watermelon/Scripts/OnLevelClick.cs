@@ -8,6 +8,7 @@ public class OnLevelClick : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("CurrentLevel", 1) >= int.Parse(txt.text))
         {
+            PlayerPrefs.SetInt("CurrentActiveLevel", int.Parse(txt.text));
             SceneManager.LoadScene(5);
         }
     }

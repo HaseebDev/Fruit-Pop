@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -61,7 +62,33 @@ public class LevelManager : MonoBehaviour
         SaveProgress();
     }
 
-    private void LevelUp()
+    public void LevelUp()
+    {
+        if(SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            currentLevel++;
+            currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
+            currentXp = 0; // Reset XP for the new levels
+
+            // Increase earned gems and coins rewards for the next level
+            earnedGems = Mathf.RoundToInt(initialGemsReward * Mathf.Pow(gemsRewardMultiplier, currentLevel - 1));
+            earnedCoins = Mathf.RoundToInt(initialCoinsReward * Mathf.Pow(coinsRewardMultiplier, currentLevel - 1));
+            levelUpPanel.SetActive(true);
+            LevelUpScreenIsScalingUp = true;
+            levelUpText.text = (currentLevel - 1).ToString();
+            earnedGemsText.text = "+" + earnedGems.ToString();
+            earnedCoinsText.text = "+" + earnedCoins.ToString();
+
+            // Add earned gems and coins to the total
+            AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Rare, (int)earnedGems);
+            AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Common, (int)earnedCoins);
+            FruitManager.Instance.
+            // Start animation coroutine
+            StartCoroutine(ScaleUpPanel());
+            UpdateUI(); // Update UI immediately after level up
+        }
+    }
+    public void LevelUpGamePlay2()
     {
         currentLevel++;
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
@@ -79,12 +106,11 @@ public class LevelManager : MonoBehaviour
         // Add earned gems and coins to the total
         AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Rare, (int)earnedGems);
         AdsCurrencyManager.instance.EarnCurrency(CurrencyType.Common, (int)earnedCoins);
-        FruitManager.Instance.
         // Start animation coroutine
         StartCoroutine(ScaleUpPanel());
         UpdateUI(); // Update UI immediately after level up
+        
     }
-
     private IEnumerator ScaleUpPanel()
     {
         float timer = 0f;
@@ -135,11 +161,21 @@ public class LevelManager : MonoBehaviour
 
     private void LoadProgress()
     {
-        currentLevel = PlayerPrefs.GetInt(LevelKey, 1);
-        currentXp = PlayerPrefs.GetInt(XpKey, 0);
+        if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+            currentXp = PlayerPrefs.GetInt(XpKey, 0);   
+        }
+        else
+        {
+            currentLevel = PlayerPrefs.GetInt(LevelKey, 1);
+            currentXp = PlayerPrefs.GetInt(XpKey, 0);
+        }
+       
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
         AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Rare, GemsBarText);
         AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, CoinsBarText);
+
     }
 
     private void CloseLevelUpPanel()

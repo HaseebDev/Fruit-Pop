@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameoverManager : MonoBehaviour
 {
@@ -30,13 +31,17 @@ public class GameoverManager : MonoBehaviour
 
     private void ManageGameover()
     {
-        if (timerOn)
-            ManageTimerOn();
-        else
+        if(SceneManager.GetActiveScene().buildIndex != 5)
         {
-            if (IsFruitAboveLine())
-                StartTimer();
+            if (timerOn)
+                ManageTimerOn();
+            else
+            {
+                if (IsFruitAboveLine())
+                    StartTimer();
+            }
         }
+       
     }
 
     private void ManageTimerOn()
@@ -85,11 +90,16 @@ public class GameoverManager : MonoBehaviour
         timerOn = false;
     }
 
-    private void Gameover()
+    public void Gameover()
     {
         Debug.LogError("Gameover");
         isGameover = true;
-        GameOverSound.Play();
+        GameOverSoundPlay();
         GameManager.instance.SetGameoverState();
+
+    }
+    public void GameOverSoundPlay()
+    {
+        GameOverSound.Play();
     }
 }

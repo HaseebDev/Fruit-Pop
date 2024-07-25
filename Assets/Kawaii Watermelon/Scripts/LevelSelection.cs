@@ -24,7 +24,8 @@ public class LevelSelection : MonoBehaviour
     {
          UpdateCurrencyUi();
          InitialSetupMusicAudio();
-        PlayerPrefs.SetInt("CurrentLevel", 14);
+       // PlayerPrefs.SetInt("CurrentLevel", 14);
+        PlayerPrefs.SetInt("TotalLevel", LevelCount);
         for(int i = 0; i < LevelCount; i++)
         {
            

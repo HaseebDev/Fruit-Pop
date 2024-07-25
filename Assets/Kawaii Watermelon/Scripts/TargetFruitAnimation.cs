@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TargetFruitAnimation : MonoBehaviour
 {
@@ -104,11 +105,15 @@ public class TargetFruitAnimation : MonoBehaviour
                 // Check if lerping is complete
                 if (Mathf.Abs(newYPosition - targetYPosition) < 0.01f)
                 {
-                    // Directly set the camera position to ensure it reaches the target position
-                    BackgroundManager.Instance.MoveToNextLevel();
-                    mainCamera.transform.position = new Vector3(currentCameraPosition.x, targetYPosition, currentCameraPosition.z);
-                    FruitManager.TargetAnimationInEffect = false;
-                    Destroy(this);
+                    if(SceneManager.GetActiveScene().buildIndex != 5)
+                    {
+                        // Directly set the camera position to ensure it reaches the target position
+                        BackgroundManager.Instance.MoveToNextLevel();
+                        mainCamera.transform.position = new Vector3(currentCameraPosition.x, targetYPosition, currentCameraPosition.z);
+                        FruitManager.TargetAnimationInEffect = false;
+                        Destroy(this);
+                    }
+                   
                 }
             }
         }
