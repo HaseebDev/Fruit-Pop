@@ -146,8 +146,12 @@ public class FruitManager : MonoBehaviour
         {
             RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
         }
-        LoadFruitPositions();
-        Invoke(nameof(PreiodicSave), saveInterval);
+        if(SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            LoadFruitPositions();
+            Invoke(nameof(PreiodicSave), saveInterval);
+        }
+      
     }
     bool Activatedused = false;
     void PreiodicSave()
@@ -841,9 +845,12 @@ public class FruitManager : MonoBehaviour
     //}
     public void BackButton()
     {
-        SaveFruitPositions();
-        backgroundManager.SaveBackgroundData();
-        CameraPositionManager.Instance.SaveCameraPosition();
+        if(SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            SaveFruitPositions();
+            backgroundManager.SaveBackgroundData();
+            CameraPositionManager.Instance.SaveCameraPosition();
+        }
         AdsManager.instance.ShowInterstitialAd();
         SceneManager.LoadScene(1);
 

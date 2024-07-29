@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
@@ -59,10 +60,13 @@ public class ScoreManager : MonoBehaviour
 
     private void MergeProcessedCallback(FruitType fruitType, Vector2 unused)
     {
-        int scoreToAdd = (int)fruitType;
-        score += (int)(scoreToAdd * scoreMultiplier);
-
-        UpdateScoreText();
+        if (SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            int scoreToAdd = (int)fruitType;
+            score += (int)(scoreToAdd * scoreMultiplier);
+            UpdateScoreText();
+        }
+        
     }
 
     private void UpdateScoreText()

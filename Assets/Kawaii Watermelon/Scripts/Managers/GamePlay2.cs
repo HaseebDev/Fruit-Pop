@@ -28,8 +28,9 @@ public class GamePlay2 : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex != 5)
         {
             this.gameObject.SetActive(false);
+           
         }
-            
+        if (Time.timeScale == 0) Time.timeScale = 1;
     }
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,8 @@ public class GamePlay2 : MonoBehaviour
     }
     private void LevelIncrease()
     {
-        SceneManager.LoadScene(5);
+      
+        FindObjectOfType<LevelManager>().CloseLevelUpPanel();  
     }
     // Update is called once per frame
     void Update()
@@ -75,7 +77,8 @@ public class GamePlay2 : MonoBehaviour
             }*/
             if (targetTime <= 0f)
             {
-                gameOverPanel.SetActive(true);
+                SetLevel();
+                    gameOverPanel.SetActive(true);
                 FindObjectOfType<GameoverManager>().GameOverSoundPlay();
                 isGameFinished = true;
                 return;
@@ -86,37 +89,59 @@ public class GamePlay2 : MonoBehaviour
         }
 
     }
+    private void SetLevel()
+    {
+        if (istask1Complete && istask2Complete)
+        {
+            PlayerPrefs.SetInt("Level" + PlayerPrefs.GetInt("CurrentActiveLevel", 1), 3);
+        }
+        else if (istask1Complete)
+        {
+            PlayerPrefs.SetInt("Level" + PlayerPrefs.GetInt("CurrentActiveLevel", 1), 1);
+        }
+        else if (istask2Complete)
+        {
+            PlayerPrefs.SetInt("Level" + PlayerPrefs.GetInt("CurrentActiveLevel", 1), 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Level" + PlayerPrefs.GetInt("CurrentActiveLevel", 1), 0);
+        }
+    }
     public void CheckCompleteTask(string name)
     {
         if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[0].fruitType.ToString() == name)
         {
-           
-            if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[0].collect == task1 - 1)
-            {
-                Debug.Log("task 1 is Complete");
-                istask1Complete = true;
-                GameFinished();
-            }
-            else
+            if (!istask1Complete)
             {
                 item1.transform.GetChild(task1).GetChild(0).gameObject.SetActive(true);
                 task1++;
             }
+            if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[0].collect == task1)
+            {
+                Debug.Log("task 1 is Complete");
+                istask1Complete = true;
+                SetLevel();
+                GameFinished();
+            }
+            
         }
         if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[1].fruitType.ToString() == name)
         {
-           
-            if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[1].collect == task2 - 1)
-            {
-                Debug.Log("task  is Complete");
-                istask2Complete = true;
-                GameFinished();
-            }
-            else
+            if (!istask2Complete)
             {
                 item2.transform.GetChild(task2).GetChild(0).gameObject.SetActive(true);
                 task2++;
             }
+            if (levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[1].collect == task2)
+            {
+                Debug.Log("task  is Complete");
+                istask2Complete = true;
+                SetLevel();
+                GameFinished();
+            }
+
+            
         }
         Debug.Log(levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[0].collect + " ========= " + levels[PlayerPrefs.GetInt("CurrentActiveLevel", 1) - 1].fruit[1].collect + "  " + task1 + " " + task2);
         GameFinished();
@@ -125,16 +150,22 @@ public class GamePlay2 : MonoBehaviour
     {
         if (istask1Complete && istask2Complete && !isGameFinished)
         {
+            SetLevel();
             isGameFinished = true;
             FindObjectOfType<LevelManager>().LevelUpGamePlay2();
-            // LevelUp.SetActive(true);  
-            // LevelUp.transform.GetChild(5).GetComponent<TMP_Text>().text = (PlayerPrefs.GetInt("CurrentLevel", 1) + 1).ToString();
             if (PlayerPrefs.GetInt("TotalLevel", 1) > PlayerPrefs.GetInt("CurrentActiveLevel", 1))
             {
                 if(PlayerPrefs.GetInt("CurrentActiveLevel", 1) == PlayerPrefs.GetInt("CurrentLevel", 1))
-                PlayerPrefs.SetInt("CurrentLevel", PlayerPrefs.GetInt("CurrentLevel", 1) + 1);
+                {
+                    PlayerPrefs.SetInt("CurrentLevel", PlayerPrefs.GetInt("CurrentLevel", 1) + 1);
+                    PlayerPrefs.SetInt("CurrentActiveLevel", PlayerPrefs.GetInt("CurrentActiveLevel", 1) + 1);
+                }
                 else
-                PlayerPrefs.SetInt("CurrentActiveLevel", PlayerPrefs.GetInt("CurrentActiveLevel", 1) + 1);
+                {
+                    PlayerPrefs.SetInt("CurrentActiveLevel", PlayerPrefs.GetInt("CurrentActiveLevel", 1) + 1);
+                }
+                PlayerPrefs.Save();
+               
             }
 
         }

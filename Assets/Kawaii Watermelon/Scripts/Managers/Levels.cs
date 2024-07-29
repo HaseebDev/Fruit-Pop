@@ -7,7 +7,6 @@ using UnityEngine;
 public class Levels : ScriptableObject
 {
     public List<FruitDictionaryItem> fruit = new List<FruitDictionaryItem>();
-   
 }
 [Serializable]
 public class FruitDictionaryItem
@@ -15,4 +14,5 @@ public class FruitDictionaryItem
     public int collect;
     public Sprite value;
     public FruitType fruitType;
+   
 }

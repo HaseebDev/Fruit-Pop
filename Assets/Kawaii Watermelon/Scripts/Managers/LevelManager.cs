@@ -49,17 +49,21 @@ public class LevelManager : MonoBehaviour
 
     public void AddXp(int xp)
     {
-        currentXp += xp;
-
-        while (currentXp >= currentXpRequirement)
+        if (SceneManager.GetActiveScene().buildIndex != 5)
         {
-            currentXp -= currentXpRequirement;
-            LevelUp();
-            LevelComplete.Play();
-        }
+            currentXp += xp;
 
-        UpdateUI();
-        SaveProgress();
+            while (currentXp >= currentXpRequirement)
+            {
+                currentXp -= currentXpRequirement;
+                LevelUp();
+                LevelComplete.Play();
+            }
+
+            UpdateUI();
+            SaveProgress();
+        }
+  
     }
 
     public void LevelUp()
@@ -90,7 +94,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LevelUpGamePlay2()
     {
-        currentLevel++;
+        currentLevel = PlayerPrefs.GetInt("CurrentActiveLevel", 1);
         currentXpRequirement = Mathf.RoundToInt(initialXpRequirement * Mathf.Pow(xpRequirementMultiplier, currentLevel - 1));
         currentXp = 0; // Reset XP for the new levels
 
@@ -99,7 +103,7 @@ public class LevelManager : MonoBehaviour
         earnedCoins = Mathf.RoundToInt(initialCoinsReward * Mathf.Pow(coinsRewardMultiplier, currentLevel - 1));
         levelUpPanel.SetActive(true);
         LevelUpScreenIsScalingUp = true;
-        levelUpText.text = (currentLevel - 1).ToString();
+        levelUpText.text = (currentLevel).ToString();
         earnedGemsText.text = "+" + earnedGems.ToString();
         earnedCoinsText.text = "+" + earnedCoins.ToString();
 
@@ -132,11 +136,19 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        levelText.text = currentLevel.ToString();
+        if(SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            levelText.text = currentLevel.ToString();
+            xpBar.maxValue = currentXpRequirement;
+            xpBar.value = currentXp;
+            CurrentLevelProgress.text = currentXp + "/" + currentXpRequirement;
+        }
+        
+
         LosePanellevelText.text = currentLevel.ToString();
-        xpBar.maxValue = currentXpRequirement;
+       
         LosePanelXpBar.maxValue = currentXpRequirement;
-        xpBar.value = currentXp;
+       
         LosePanelXpBar.value = currentXp;
         if(AdsCurrencyManager.instance != null)
         {
@@ -145,7 +157,7 @@ public class LevelManager : MonoBehaviour
         }
 
         // Display current XP progress
-        CurrentLevelProgress.text = currentXp + "/" + currentXpRequirement;
+        
         LosePanelCurrentLevelProgress.text = currentXp + "/" + currentXpRequirement;
 
         Debug.Log(currentXpRequirement);
@@ -178,10 +190,26 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    private void CloseLevelUpPanel()
+    public void CloseLevelUpPanel()
     {
+        if(SceneManager.GetActiveScene().buildIndex == 5)
+        {
+
+            if (AdsManager.instance.isInitialize)
+            {
+                AdsManager.instance.ShowInterstitialAd();
+            }
+            else
+            {
+                SceneManager.LoadScene(5);
+            }
+        }
+        else
+        {
+            AdsManager.instance.ShowInterstitialAd();
+        }
         //FruitManager.Instance.EnableAllFruitsPhysics();
-        AdsManager.instance.ShowInterstitialAd();
+       
         levelUpPanel.SetActive(false);
         LevelUpScreenIsScalingUp = false;
         //Play ButtonSound

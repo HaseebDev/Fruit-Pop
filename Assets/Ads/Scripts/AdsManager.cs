@@ -2,6 +2,8 @@
 using GoogleMobileAds.Api;
 using System;
 using UnityEngine.Advertisements;
+using UnityEngine.SceneManagement;
+
 public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     public static AdsManager instance;
@@ -48,6 +50,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     private RewardedAd _rewardedAd;
     bool AdmobRewardedLoaded;
     bool AdmobInterdLoaded;
+    public bool isInitialize;
     void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -97,6 +100,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     {
         MobileAds.Initialize((InitializationStatus initStatus) =>
         {
+            isInitialize = true;
             LoadAdmobInterstitialAd(); LoadAdmobRewardedAd();
         });
 
@@ -222,9 +226,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
                 Debug.Log("Interstitial ad loaded with response : "
                           + ad.GetResponseInfo());
                 AdmobInterdLoaded = true;
-
-
                 _interstitialAd = ad;
+                RegisterEventHandlers(_interstitialAd);
             });
     }
 
@@ -266,6 +269,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         // Raised when the ad closed full screen content.
         interstitialAd.OnAdFullScreenContentClosed += () =>
         {
+            if (SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
             Debug.Log("Interstitial ad full screen content closed.");
         };
         // Raised when the ad failed to open full screen content.
@@ -278,7 +282,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         interstitialAd.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Interstitial Ad full screen content closed.");
-
+            if (SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
             // Reload the ad so that we can show another as soon as possible.
             LoadAdmobInterstitialAd();
         };
@@ -287,7 +291,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         {
             Debug.LogError("Interstitial ad failed to open full screen content " +
                            "with error : " + error);
-
+            if(SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
             // Reload the ad so that we can show another as soon as possible.
             LoadAdmobInterstitialAd();
         };
@@ -548,10 +552,12 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     }
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
+        if (SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
         Debug.Log($"Load Failed: [{error}:{placementId}] {message}");
     }
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
+        if (SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
         Debug.Log($"OnUnityAdsShowFailure: [{error}]: {message}");
     }
     public void OnUnityAdsShowStart(string placementId)
@@ -567,6 +573,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         Debug.Log($"OnUnityAdsShowComplete: [{showCompletionState}]: {placementId}");
         if (placementId == INTERSTITIAL_PLACEMENT)
         {
+            if (SceneManager.GetActiveScene().buildIndex == 5) SceneManager.LoadScene(5);
             LoadUnityInterstitial();
         }
         else if (placementId == REWARDED_PLACEMENT)
