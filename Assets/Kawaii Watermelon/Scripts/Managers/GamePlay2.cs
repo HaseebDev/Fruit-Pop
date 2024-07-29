@@ -23,6 +23,7 @@ public class GamePlay2 : MonoBehaviour
     bool istask1Complete;
     bool istask2Complete;
     public Button btn;
+    [HideInInspector] public bool TimerStop;
     private void Awake()
     {
         if (SceneManager.GetActiveScene().buildIndex != 5)
@@ -54,7 +55,7 @@ public class GamePlay2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isGameFinished)
+        if (!isGameFinished && !TimerStop)
         {
             Timer();
         }
