@@ -23,7 +23,6 @@ public class LevelSelection : MonoBehaviour
     void Start()
     {
          UpdateCurrencyUi();
-         InitialSetupMusicAudio();
        // PlayerPrefs.SetInt("CurrentLevel", 14);
         PlayerPrefs.SetInt("TotalLevel", LevelCount);
         for(int i = 0; i < LevelCount; i++)
@@ -94,15 +93,6 @@ public class LevelSelection : MonoBehaviour
             contentRectTransform.sizeDelta = sizeDelta;
             contentRectTransform.DOMoveY(-1 * height, 1);
         }
-    }
-    private void InitialSetupMusicAudio()
-    {
-        float MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
-        Debug.Log("Music Volume is " + MusicVolume);
-
-        float mappedMusicVolume = MusicVolume * 0.25f; // Map the value to a maximum of 0.25
-        musicSource.volume = mappedMusicVolume;
-        Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
     }
     public void UpdateCurrencyUi()
     {

@@ -14,18 +14,10 @@ public class ModeManager : MonoBehaviour
     void Start()
     {
         UpdateCurrencyUi();
-        InitialSetupMusicAudio();
+   
     }
 
-    private void InitialSetupMusicAudio()
-    {
-        float MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
-        Debug.Log("Music Volume is " + MusicVolume);
 
-        float mappedMusicVolume = MusicVolume * 0.25f; // Map the value to a maximum of 0.25
-        musicSource.volume = mappedMusicVolume;
-        Debug.Log("Adjusted Music Volume is " + mappedMusicVolume);
-    }
     public void UpdateCurrencyUi()
     {
         AdsCurrencyManager.instance.UpdateCurrencyUI(CurrencyType.Common, commonCurrencyText);
