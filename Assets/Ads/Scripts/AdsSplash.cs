@@ -22,7 +22,15 @@ public class AdsSplash : MonoBehaviour
         {
             progress = (Time.time - startTime) / totalDuration;
             mySlider.value = progress;
-            progressText.text = "Loading " + Mathf.FloorToInt(progress * 100) + "%";
+
+            if (Mathf.FloorToInt(progress * 100) <= 100)
+            {
+                progressText.text = "Loading " + Mathf.FloorToInt(progress * 100) + "%";
+            }
+            else
+            {
+                progressText.text = "Loading " + "100%";
+            }
             yield return new WaitForSeconds(Time.deltaTime);
         }
         LoadingComplete();
