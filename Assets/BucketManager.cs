@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BucketManager : MonoBehaviour
@@ -84,6 +85,7 @@ public class BucketManager : MonoBehaviour
     void Start()
     {
         // Load filler amount
+        if(SceneManager.GetActiveScene().buildIndex != 5)
         LoadFillerAmount();
     }
 }

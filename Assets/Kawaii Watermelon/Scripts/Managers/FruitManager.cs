@@ -505,6 +505,7 @@ public class FruitManager : MonoBehaviour
         int xp = CalculateXpForMerge(fruitType);
         levelManager.AddXp(xp);
         float Addition = Random.Range(0.001f, 0.01f);
+        if(SceneManager.GetActiveScene().buildIndex != 5)
         bucketManager.AddToFiller(Addition);
         // Check if target fruit is achieved
         if ((int)fruitType == targetFruitIndex && SceneManager.GetActiveScene().buildIndex != 5)
