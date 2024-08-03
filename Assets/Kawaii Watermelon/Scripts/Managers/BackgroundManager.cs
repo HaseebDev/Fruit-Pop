@@ -3,6 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BackgroundManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class BackgroundManager : MonoBehaviour
     private int currentActiveBackground;
     void Start()
     {
+
+
+
         Instance = this;
         if (!PlayerPrefs.HasKey("CheckKey"))
         {
@@ -38,8 +42,14 @@ public class BackgroundManager : MonoBehaviour
             backgrounds[i].transform.position = new Vector2(0, -i * backgroundHeight);
             backgrounds[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backgroundSprites[currentActiveBackground];
         }
-        LoadBackgroundData();
-        Invoke(nameof(PreiodicSave), saveInterval);
+        if (SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            LoadBackgroundData();
+            Invoke(nameof(PreiodicSave), saveInterval);
+        }
+
+
+
 
     }
 

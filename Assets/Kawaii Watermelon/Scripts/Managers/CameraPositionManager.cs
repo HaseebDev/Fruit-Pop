@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class CameraPositionManager : MonoBehaviour
 {
@@ -16,9 +17,12 @@ public class CameraPositionManager : MonoBehaviour
         savePath = Application.persistentDataPath + "/camera_position.json";
 
         // Load the camera position when the scene starts
-        LoadCameraPosition();
+        if (SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            LoadCameraPosition();
+            Invoke(nameof(PreiodicSave), saveInterval);
+        }
 
-        Invoke(nameof(PreiodicSave), saveInterval);
     }
 
     void PreiodicSave()

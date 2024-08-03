@@ -41,7 +41,7 @@ public class AdsCurrencyManager : MonoBehaviour
         }
         if (PlayerPrefs.HasKey(rareCurrencyKey))
         {
-            Debug.Log("LOL");
+            //Debug.Log("LOL");
             rareCurrency = PlayerPrefs.GetFloat(rareCurrencyKey);
         }
         else
