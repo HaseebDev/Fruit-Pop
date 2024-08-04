@@ -146,12 +146,12 @@ public class FruitManager : MonoBehaviour
         {
             RainbowPowerUpCurrencyButton.onClick.AddListener(ActivatePowerUp3PriceButton);
         }
-        if(SceneManager.GetActiveScene().buildIndex != 5)
+        if (SceneManager.GetActiveScene().buildIndex != 5)
         {
             LoadFruitPositions();
             Invoke(nameof(PreiodicSave), saveInterval);
         }
-      
+
     }
     bool Activatedused = false;
     void PreiodicSave()
@@ -505,8 +505,8 @@ public class FruitManager : MonoBehaviour
         int xp = CalculateXpForMerge(fruitType);
         levelManager.AddXp(xp);
         float Addition = Random.Range(0.001f, 0.01f);
-        if(SceneManager.GetActiveScene().buildIndex != 5)
-        bucketManager.AddToFiller(Addition);
+        if (SceneManager.GetActiveScene().buildIndex != 5)
+            bucketManager.AddToFiller(Addition);
         // Check if target fruit is achieved
         if ((int)fruitType == targetFruitIndex && SceneManager.GetActiveScene().buildIndex != 5)
         {
@@ -846,7 +846,7 @@ public class FruitManager : MonoBehaviour
     //}
     public void BackButton()
     {
-        if(SceneManager.GetActiveScene().buildIndex != 5)
+        if (SceneManager.GetActiveScene().buildIndex != 5)
         {
             SaveFruitPositions();
             backgroundManager.SaveBackgroundData();

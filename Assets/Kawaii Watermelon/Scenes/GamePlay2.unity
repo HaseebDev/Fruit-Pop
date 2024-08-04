@@ -6427,7 +6427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 97369095}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f41afc49817f0034491ea20b89e29a8b, type: 3}
   m_Name: 
@@ -6971,10 +6971,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c048008bf458e4fbd41cde65c9a2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerFreezePlus: {fileID: 422270773}
   PowerFreezePanel: {fileID: 1247898013}
   PowerUpPanel: {fileID: 1220659259}
-  PowerUpPlus: {fileID: 111899650}
   rareCoin: {fileID: 756087691}
 --- !u!1 &136934430
 GameObject:
@@ -40444,7 +40442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -306.5, y: -10.4001465}
+  m_AnchoredPosition: {x: -306.5, y: -10.399902}
   m_SizeDelta: {x: 281, y: 64}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &631968163
@@ -56923,7 +56921,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.399902, y: -10.4001465}
+  m_AnchoredPosition: {x: -8.399902, y: -10.399902}
   m_SizeDelta: {x: 281, y: 64}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1161829698
@@ -66180,7 +66178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.60300004}
   m_AnchorMax: {x: 1, y: 0.60300004}
-  m_AnchoredPosition: {x: -35, y: -3.7000122}
+  m_AnchoredPosition: {x: -35, y: -3.6999512}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.50000006}
 --- !u!114 &1609399535

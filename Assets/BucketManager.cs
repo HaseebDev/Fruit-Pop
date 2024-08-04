@@ -87,5 +87,10 @@ public class BucketManager : MonoBehaviour
         // Load filler amount
         if(SceneManager.GetActiveScene().buildIndex != 5)
         LoadFillerAmount();
+        else
+        {
+            bucketFiller.gameObject.transform.parent.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
 }

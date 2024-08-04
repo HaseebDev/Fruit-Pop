@@ -1,97 +1,91 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class BoostersHandler : MonoBehaviour
 {
-    public GameObject PowerFreezePlus;
     public GameObject PowerFreezePanel;
     public GameObject PowerUpPanel;
-    public GameObject PowerUpPlus;
     public TMP_Text rareCoin;
-    string boosterName;
+    private string boosterName;
+
     private void Start()
     {
-        PowerUpPlus.SetActive(PlayerPrefs.GetString("PowerUp", "NotBuy") != "Buy");
-        PowerFreezePlus.SetActive(PlayerPrefs.GetString("PowerFreeze", "NotBuy") != "Buy");
+        rareCoin.text = PlayerPrefs.GetFloat("RareCurrency").ToString();
     }
+
     public void PowerUpBtn()
     {
-        if (PlayerPrefs.GetString("PowerUp", "NotBuy") == "Buy")
-        {
-            GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
-            gamePlay2.targetTime += 60;
-            PlayerPrefs.SetString("PowerUp", "NotBuy");
-            PowerUpPlus.SetActive(true);
-        }
-        else
-        {
-           
-            PowerUpPanel.SetActive(true);
-        }
-        
+        PowerUpPanel.SetActive(true);
     }
+
     public void PowerFreezeBtn()
     {
-        if (PlayerPrefs.GetString("PowerFreeze", "NotBuy") == "Buy")
-        {
-            GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
-            gamePlay2.TimerStop = true;
-            PlayerPrefs.SetString("PowerFreeze", "NotBuy");
-            PowerFreezePlus.SetActive(true);
-        }
-        else
-        {
-           
-            PowerFreezePanel.SetActive(true);
-        }
-
+        PowerFreezePanel.SetActive(true);
     }
+
     public void PowerFreeze()
     {
-        if (PlayerPrefs.GetFloat("RareCurrency") >= 15)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 15f)
         {
-            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 14);
-            PowerFreezePanel.SetActive(false);
-            PowerFreezePlus.SetActive(false);
-            PlayerPrefs.SetString("PowerFreeze","Buy");
-            PlayerPrefs.Save();
-            rareCoin.text = (PlayerPrefs.GetFloat("RareCurrency")).ToString();
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 15f);
+            ApplyPowerFreezeEffect();
         }
     }
+
     public void PowerUp()
     {
-        if (PlayerPrefs.GetFloat("RareCurrency") >= 15)
+        if (PlayerPrefs.GetFloat("RareCurrency") >= 15f)
         {
-            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 15);
-            PowerUpPanel.SetActive(false);
-            PowerUpPlus.SetActive(false);
-            PlayerPrefs.SetString("PowerUp", "Buy");
-            PlayerPrefs.Save();
-            rareCoin.text = (PlayerPrefs.GetFloat("RareCurrency")).ToString();
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 15f);
+            ApplyPowerUpEffect();
         }
     }
-   
-    public void TimeUpByAds(String name)
+
+    private void ApplyPowerFreezeEffect()
+    {
+        GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
+        gamePlay2.TimerStop = true;
+        rareCoin.text = PlayerPrefs.GetFloat("RareCurrency").ToString();
+        PowerFreezePanel.SetActive(false);
+        StartCoroutine(ResetTimerStopAfterDelay(10f));
+    }
+
+    private void ApplyPowerUpEffect()
+    {
+        GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
+        gamePlay2.targetTime += 20;
+        rareCoin.text = PlayerPrefs.GetFloat("RareCurrency").ToString();
+        PowerUpPanel.SetActive(false);
+    }
+
+    public void TimeUpByAds(string name)
     {
         boosterName = name;
-        Action Reward = getBoosterReward;
-        AdsManager.instance.ShowRewardedAd(Reward);
+        Action reward = GetBoosterReward;
+        AdsManager.instance.ShowRewardedAd(reward);
     }
-    
-    private void getBoosterReward()
+
+    private void GetBoosterReward()
     {
         if (boosterName.Equals("up"))
         {
-            PlayerPrefs.SetString("PowerUp", "Buy");
-            PowerUpPlus.SetActive(false);
-            PowerUpPanel.SetActive(false);
+            ApplyPowerUpEffect();
         }
         else
         {
-            PlayerPrefs.SetString("PowerFreeze", "Buy");
-            PowerFreezePlus.SetActive(false);
-            PowerFreezePanel.SetActive(false);
+            ApplyPowerFreezeEffect();
+        }
+    }
+
+    private IEnumerator ResetTimerStopAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
+        if (gamePlay2 != null)
+        {
+            gamePlay2.TimerStop = false; 
         }
     }
 }
