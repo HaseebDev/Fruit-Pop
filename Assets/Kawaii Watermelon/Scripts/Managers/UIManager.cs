@@ -86,10 +86,18 @@ public class UIManager : MonoBehaviour
 
     public void NextButtonCallback()
     {
-        SaveLoadManager.Instance.ClearGameData();
-        BackgroundManager.Instance.ClearBackgroundData();
-        CameraPositionManager.Instance.ClearGameData();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        if (SceneManager.GetActiveScene().buildIndex != 5)
+        {
+            SaveLoadManager.Instance.ClearGameData();
+            BackgroundManager.Instance.ClearBackgroundData();
+            CameraPositionManager.Instance.ClearGameData();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
+
     }
 
     public void ReviveButton()
@@ -98,17 +106,26 @@ public class UIManager : MonoBehaviour
         {
             // Close gameover panel
             gameoverPanel.SetActive(false);
-            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 12);
+            PlayerPrefs.SetFloat("RareCurrency", PlayerPrefs.GetFloat("RareCurrency") - 12f);
             FindAnyObjectByType<LevelManager>().UpdateUI();
             // Destroy fruits above or touching the deadline
             Fruit[] fruits = FindObjectsOfType<Fruit>();
-            foreach (Fruit fruit in fruits)
+            if (SceneManager.GetActiveScene().buildIndex != 5)
             {
-                if (fruit.transform.position.y >= FindAnyObjectByType<GameoverManager>().deadLine.transform.position.y)
+                foreach (Fruit fruit in fruits)
                 {
-                    Destroy(fruit.gameObject);
+                    if (fruit.transform.position.y >= FindAnyObjectByType<GameoverManager>().deadLine.transform.position.y)
+                    {
+                        Destroy(fruit.gameObject);
+                    }
                 }
             }
+            else
+            {
+                GamePlay2 gamePlay2 = FindObjectOfType<GamePlay2>();
+                gamePlay2.targetTime += 60;
+            }
+
 
             // Reset game state or perform any other necessary actions
             GameManager.instance.SetGameState();
@@ -133,17 +150,21 @@ public class UIManager : MonoBehaviour
     private void OnApplicationQuit()
     {
 
-        if (gameoverPanel.activeInHierarchy == true)
+        if (SceneManager.GetActiveScene().buildIndex != 5)
         {
-            SaveLoadManager.Instance.ClearGameData();
-            BackgroundManager.Instance.ClearBackgroundData();
-            CameraPositionManager.Instance.ClearGameData();
+            if (gameoverPanel.activeInHierarchy == true)
+            {
+                SaveLoadManager.Instance.ClearGameData();
+                BackgroundManager.Instance.ClearBackgroundData();
+                CameraPositionManager.Instance.ClearGameData();
+            }
+            else
+            {
+                FruitManager.Instance.SaveFruitPositions();
+                CameraPositionManager.Instance.SaveCameraPosition();
+                BackgroundManager.Instance.SaveBackgroundData();
+            }
         }
-        else
-        {
-            FruitManager.Instance.SaveFruitPositions();
-            CameraPositionManager.Instance.SaveCameraPosition();
-            BackgroundManager.Instance.SaveBackgroundData();
-        }
+
     }
 }
