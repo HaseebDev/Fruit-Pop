@@ -16,6 +16,6 @@ MonoBehaviour:
   - collect: 3
     value: {fileID: 21300000, guid: be63dd9a9ebd68e45a73514abe5e9434, type: 3}
     fruitType: 5
-  - collect: 2
+  - collect: 3
     value: {fileID: 21300000, guid: 1af35f1a00261466f8a10b5b04e33666, type: 3}
     fruitType: 2

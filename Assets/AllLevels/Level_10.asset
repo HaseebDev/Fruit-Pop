@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level_10
   m_EditorClassIdentifier: 
   fruit:
-  - collect: 2
-    value: {fileID: 21300000, guid: 27d3e6fdea850804ea6c6cd21a667f89, type: 3}
+  - collect: 3
+    value: {fileID: 21300000, guid: be63dd9a9ebd68e45a73514abe5e9434, type: 3}
     fruitType: 9
-  - collect: 2
+  - collect: 3
     value: {fileID: 21300000, guid: 7f1f4d8eac9dcd042a22673f1be778ae, type: 3}
     fruitType: 7
