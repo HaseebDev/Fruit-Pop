@@ -15,7 +15,10 @@ MonoBehaviour:
   fruit:
   - collect: 3
     value: {fileID: 21300000, guid: be63dd9a9ebd68e45a73514abe5e9434, type: 3}
-    fruitType: 9
+    fruitType: 3
   - collect: 3
-    value: {fileID: 21300000, guid: 7f1f4d8eac9dcd042a22673f1be778ae, type: 3}
+    value: {fileID: 21300000, guid: d35c28d6aadea8044beff353cf1a742d, type: 3}
     fruitType: 7
+  - collect: 1
+    value: {fileID: 21300000, guid: 468a95516c265614a9b07c372ffddf95, type: 3}
+    fruitType: 8
